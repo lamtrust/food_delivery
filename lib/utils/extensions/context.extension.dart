@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/configs/colors.config.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 extension ExtraContext on BuildContext {
@@ -8,6 +7,9 @@ extension ExtraContext on BuildContext {
 
   /// Width of device screen (x-axis)
   double get width => MediaQuery.of(this).size.width;
+
+  /// Get Theme
+  ThemeData get theme => Theme.of(this);
 
   /// Navigate to new page
   routeTo({required Widget page, bool replace = false}) {
@@ -88,7 +90,7 @@ extension ExtraContext on BuildContext {
         backgroundColor: isError
             ? Colors.red.withOpacity(0.95)
             // TODO: Find better color here
-            : ColorConfigs.PRIMARY_COLOR,
+            : theme.primaryColor,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),

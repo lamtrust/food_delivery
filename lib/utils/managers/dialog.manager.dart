@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:app_settings/app_settings.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery/configs/colors.config.dart';
 import 'package:food_delivery/services/dialog.service.dart';
 import 'package:food_delivery/services/index.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
@@ -69,7 +68,7 @@ class _DialogManagerState extends State<DialogManager> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(ColorConfigs.PRIMARY_COLOR),
+              valueColor: AlwaysStoppedAnimation(Color(0xFF121830)),
             ),
             const SizedBox(
               height: 20,

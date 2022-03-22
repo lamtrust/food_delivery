@@ -42,4 +42,10 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: Heebo
+      fonts:
+        - asset: fonts/Heebo-Regular.ttf
 

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:food_delivery/configs/colors.config.dart';
+import 'package:food_delivery/modules/shop/pages/store.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:relative_scale/relative_scale.dart';
 
@@ -17,7 +17,11 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(const Duration(seconds: 3), () {});
+    Timer(const Duration(seconds: 3), () {
+      context.goBackClear(
+        page: const StoreFront(),
+      );
+    });
     super.initState();
   }
 
@@ -26,13 +30,18 @@ class _SplashScreenState extends State<SplashScreen> {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return PlatformScaffold(
-          backgroundColor: ColorConfigs.PRIMARY_COLOR,
+          backgroundColor: Colors.white,
           body: Container(
             height: context.height,
             width: context.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [],
+              children: [
+                Image(
+                  image: const AssetImage("assets/images/logo.png"),
+                  height: sy(80),
+                ),
+              ],
             ),
           ),
         );

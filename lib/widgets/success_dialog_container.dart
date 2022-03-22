@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/configs/colors.config.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:relative_scale/relative_scale.dart';
 
@@ -58,7 +57,7 @@ class SuccessDialogContainer extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     // TODO: Fix colors here
-                    color: ColorConfigs.PRIMARY_COLOR,
+                    color: context.theme.primaryColor,
                     fontSize: sy(10),
                     fontWeight: FontWeight.bold,
                     height: 1,
@@ -78,11 +77,11 @@ class SuccessDialogContainer extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       // TODO: Fix colors here
                       colors: [
-                        ColorConfigs.PRIMARY_COLOR,
-                        ColorConfigs.PRIMARY_COLOR,
+                        context.theme.primaryColor,
+                        context.theme.primaryColor,
                       ],
                     ),
                     borderRadius: BorderRadius.circular(25),

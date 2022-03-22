@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
           //                     vertical: sy(10),
           //                   ),
           //                   decoration: BoxDecoration(
-          //                     color: ColorConfigs.PRIMARY_COLOR,
+          //                     color: context.theme.primaryColor,
           //                     borderRadius: BorderRadius.circular(10),
           //                     boxShadow: [
           //                       BoxShadow(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/configs/colors.config.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:relative_scale/relative_scale.dart';
 
@@ -62,7 +61,7 @@ class ErrorDialogContainer extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     // TODO: Fix Colors here
-                    color: ColorConfigs.PRIMARY_COLOR,
+                    color: context.theme.primaryColor,
                     fontSize: sy(10),
                     fontWeight: FontWeight.bold,
                     height: 1,
@@ -94,11 +93,11 @@ class ErrorDialogContainer extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       // TODO: Fix Colors here
                       colors: [
-                        ColorConfigs.PRIMARY_COLOR,
-                        ColorConfigs.PRIMARY_COLOR,
+                        context.theme.primaryColor,
+                        context.theme.primaryColor,
                       ],
                     ),
                     borderRadius: BorderRadius.circular(25),
