@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_delivery/modules/shop/providers/navigation.provider.shop.dart';
+import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/modules/splash.dart';
 import 'package:food_delivery/services/index.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => NavigationProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ShopProvider(),
         ),
       ],
       child: const MyApp(),

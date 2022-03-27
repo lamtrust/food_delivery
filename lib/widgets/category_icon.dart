@@ -7,9 +7,11 @@ class CategoryIcon extends StatelessWidget {
   const CategoryIcon({
     Key? key,
     required this.categoryName,
+    required this.path,
   }) : super(key: key);
 
   final String categoryName;
+  final String path;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +26,17 @@ class CategoryIcon extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                 color: Colors.grey.withOpacity(0.3),
-                width: 2.0,
+                width: 1.5,
               ),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Icons.fastfood_outlined,
-              color: AppColors.darkBlue,
-              size: sy(13),
+            child: Transform.scale(
+              scale: 0.6,
+              child: Image(
+                image: AssetImage(path),
+                color: AppColors.darkBlue,
+                height: sy(10),
+              ),
             ),
           ),
           SizedBox(
