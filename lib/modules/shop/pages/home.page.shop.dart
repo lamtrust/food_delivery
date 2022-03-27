@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(
-              height: sy(10),
+              height: sy(20),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
               height: sy(15),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 CategoryIcon(
                   categoryName: "Food",
@@ -230,6 +230,151 @@ class _HomePageState extends State<HomePage> {
                   categoryName: "Chips",
                 ),
               ],
+            ),
+            SizedBox(
+              height: sy(15),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Popular",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: sy(10),
+                  ),
+                ),
+                Text(
+                  "view all",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.normal,
+                    fontSize: sy(10),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: sy(15),
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: sx(250),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: sx(10),
+                          vertical: sy(5),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 4.0,
+                              spreadRadius: 1.0,
+                              offset: const Offset(
+                                1.0,
+                                1.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: sy(90),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFE9EEFF),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              // child: FadeInImage.assetNetwork(
+                              //   placeholder: "assets/images/loading.gif",
+                              //   image: image,
+                              // ),
+                            ),
+                            SizedBox(
+                              height: sy(5),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "TN GRILL",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: sy(9),
+                                  ),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "⭐",
+                                      style: TextStyle(
+                                        fontSize: sy(7),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: sx(1),
+                                    ),
+                                    Text(
+                                      "(4.3)",
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: sy(9),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: sy(5),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Hunger Buster Meal"),
+                                      Text("\$5.00"),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: sx(10),
+                                ),
+                                Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.darkBlue,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
