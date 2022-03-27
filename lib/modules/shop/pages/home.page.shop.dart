@@ -176,12 +176,22 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Image(
-                    image: AssetImage("assets/images/chicken.png"),
+                    image: const AssetImage("assets/images/chicken.png"),
                     height: sy(60),
                     width: sx(150),
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: sy(10),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Categories"),
+                Text("view all"),
+              ],
             ),
           ],
         ),
