@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/utils/extensions/context.extension.dart';
+import 'package:food_delivery/widgets/deliver_to.dart';
+import 'package:relative_scale/relative_scale.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -10,6 +13,21 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return RelativeBuilder(builder: (context, height, width, sy, sx) {
+      return Scaffold(
+        body: Container(
+          height: context.height,
+          width: context.width,
+          padding: EdgeInsets.only(
+            top: sy(10),
+          ),
+          child: Column(
+            children: [
+              const DeliverTo(),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

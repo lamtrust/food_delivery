@@ -4,6 +4,7 @@ import 'package:food_delivery/modules/shop/models/product.model.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/widgets/category_icon.dart';
+import 'package:food_delivery/widgets/deliver_to.dart';
 import 'package:food_delivery/widgets/product_container.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
@@ -27,55 +28,7 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Deliver to",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: sy(13),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on_outlined,
-                            size: sy(12),
-                          ),
-                          SizedBox(
-                            width: sx(5),
-                          ),
-                          Text(
-                            "136 Blakeway Drive, Belvedere",
-                            style: TextStyle(
-                              fontSize: sy(9),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(40),
-                    child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/loading.gif',
-                      image: 'https://picsum.photos/250?image=9',
-                    ),
-                  ),
-                  height: 60,
-                  width: 60,
-                ),
-              ],
-            ),
+            const DeliverTo(),
             SizedBox(
               height: sy(20),
             ),
