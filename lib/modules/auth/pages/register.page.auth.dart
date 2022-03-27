@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/configs/theme.config.dart';
-import 'package:food_delivery/modules/auth/pages/register.page.auth.dart';
-import 'package:food_delivery/modules/auth/providers/login.provider.auth.dart';
+import 'package:food_delivery/modules/auth/pages/login.page.auth.dart';
+import 'package:food_delivery/modules/auth/providers/register.provider.auth.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:localregex/localregex.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
@@ -34,15 +34,18 @@ class _LoginPageState extends State<LoginPage> {
                 height: sy(20),
               ),
               Text(
-                "Let's Sign You In",
+                "Getting Started",
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: sy(15),
                 ),
               ),
+              SizedBox(
+                height: sy(5),
+              ),
               Text(
-                "Welcome back, you've\nbeen missed",
+                "Create an account to\ncontinue",
                 style: TextStyle(
                   color: Colors.black54,
                   fontWeight: FontWeight.normal,
@@ -54,15 +57,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child:
-                      Consumer<LoginProvider>(builder: (context, provider, _) {
+                  child: Consumer<RegisterProvider>(
+                      builder: (context, provider, _) {
                     return Form(
                       key: provider.formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Email Address",
+                            "Your Email",
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -102,6 +105,52 @@ class _LoginPageState extends State<LoginPage> {
 
                                 if (!LocalRegex.isEmail(email)) {
                                   return "Email Address is not valid!";
+                                }
+
+                                return null;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: sy(20),
+                          ),
+                          Text(
+                            "Your Name ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: sy(10),
+                            ),
+                          ),
+                          SizedBox(
+                            height: sy(5),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: sx(20),
+                              vertical: sy(2),
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE9EEFF),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextFormField(
+                              controller: provider.nameController,
+                              decoration: InputDecoration(
+                                hintText: "Full Name",
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: sy(9),
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              keyboardType: TextInputType.name,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (String? name) {
+                                if (name!.isEmpty) {
+                                  return "Full Name is required!";
                                 }
 
                                 return null;
@@ -177,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              "Login",
+                              "Register",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -192,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Don't have an account? ",
+                                "Already have an account? ",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.normal,
@@ -201,10 +250,10 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               InkWell(
                                 onTap: () => context.routeTo(
-                                  page: const RegisterPage(),
+                                  page: const LoginPage(),
                                 ),
                                 child: Text(
-                                  "Sign up",
+                                  "Sign in",
                                   style: TextStyle(
                                     color: AppColors.gold,
                                     fontWeight: FontWeight.w900,

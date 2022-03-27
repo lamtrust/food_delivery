@@ -19,9 +19,9 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
-    return RelativeBuilder(builder: (context, height, width, sy, sx) {
-      return Scaffold(
-        body: Container(
+    return RelativeBuilder(
+      builder: (context, height, width, sy, sx) {
+        return Container(
           height: context.height,
           width: context.width,
           padding: EdgeInsets.only(
@@ -182,8 +182,8 @@ class _CartPageState extends State<CartPage> {
               ),
             ],
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

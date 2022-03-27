@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_delivery/modules/auth/providers/login.provider.auth.dart';
+import 'package:food_delivery/modules/auth/providers/register.provider.auth.dart';
 import 'package:food_delivery/modules/shop/providers/navigation.provider.shop.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/modules/splash.dart';
@@ -30,6 +32,12 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => ShopProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LoginProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RegisterProvider(),
         ),
       ],
       child: const MyApp(),
