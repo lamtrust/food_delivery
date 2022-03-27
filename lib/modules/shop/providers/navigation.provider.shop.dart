@@ -27,5 +27,6 @@ class NavigationProvider extends ChangeNotifier {
   set currentIndex(int value) {
     _currentIndex = value;
     notifyListeners();
+    _pageController.jumpToPage(value);
   }
 }
