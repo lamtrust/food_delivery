@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/modules/shop/models/cart_item.model.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
+import 'package:food_delivery/utils/extensions/iterations.extension.dart';
 import 'package:uuid/uuid.dart';
 
 class ShopProvider extends ChangeNotifier {
@@ -101,6 +102,14 @@ class ShopProvider extends ChangeNotifier {
       removeProductFromCart(cartItem);
     }
     notifyListeners();
+  }
+
+  // Get quantity of product in cart
+  int getCartItemQuantity(Product product) {
+    return _cart
+            .firstWhereOrNull((item) => item.product.id == product.id)
+            ?.quantity ??
+        0;
   }
 
   List<Product> get products => _products;
