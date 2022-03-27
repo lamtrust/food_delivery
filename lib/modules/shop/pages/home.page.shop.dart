@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/configs/index.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:relative_scale/relative_scale.dart';
 
@@ -57,14 +58,130 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: FadeInImage.assetNetwork(
-                    placeholder: 'assets/images/loading.gif',
-                    image: 'https://picsum.photos/250?image=9',
+                SizedBox(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(40),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/loading.gif',
+                      image: 'https://picsum.photos/250?image=9',
+                    ),
                   ),
-                )
+                  height: 60,
+                  width: 60,
+                ),
               ],
+            ),
+            SizedBox(
+              height: sy(20),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 1.0,
+                    spreadRadius: 0.5,
+                    offset: const Offset(
+                      1.0,
+                      1.0,
+                    ),
+                  )
+                ],
+              ),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: "What are you looking for?",
+                  hintStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                    fontSize: sy(9),
+                  ),
+                  border: InputBorder.none,
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: sy(20),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: sx(20),
+                vertical: sy(10),
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.darkBlue,
+                    Colors.lightBlueAccent,
+                  ],
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "25%",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: sy(13),
+                              ),
+                            ),
+                            SizedBox(
+                              width: sx(10),
+                            ),
+                            Text(
+                              "off",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: sy(10),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          "Fast Foods",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: sy(10),
+                          ),
+                        ),
+                        SizedBox(
+                          height: sy(10),
+                        ),
+                        Text(
+                          "Valid until 27 April",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: sy(10),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Image(
+                    image: AssetImage("assets/images/chicken.png"),
+                    height: sy(60),
+                    width: sx(150),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

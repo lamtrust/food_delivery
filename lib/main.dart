@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:food_delivery/configs/index.dart';
 import 'package:food_delivery/modules/shop/providers/navigation.provider.shop.dart';
 import 'package:food_delivery/modules/splash.dart';
 import 'package:food_delivery/services/index.dart';
@@ -39,22 +37,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformApp(
+    return MaterialApp(
       title: 'TN Grill',
-      material: (BuildContext context, PlatformTarget target) {
-        return MaterialAppData(
-          theme: appThemeData,
-          title: 'TN Grill',
-          color: Colors.blueAccent,
-        );
-      },
-      cupertino: (BuildContext context, PlatformTarget target) {
-        return CupertinoAppData(
-          theme: cupertinoAppThemeData,
-          title: 'TN Grill',
-          color: Colors.blueAccent,
-        );
-      },
+      color: Colors.blueAccent,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: "Heebo",
+      ),
       home: const SplashScreen(),
     );
   }
