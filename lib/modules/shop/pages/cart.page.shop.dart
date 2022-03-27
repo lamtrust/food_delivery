@@ -48,14 +48,24 @@ class _CartPageState extends State<CartPage> {
               ),
               Expanded(
                 child: Consumer<ShopProvider>(builder: (context, provider, _) {
-                  return ListView(
-                    shrinkWrap: true,
-                    children: provider.cart.map((CartItem item) {
-                      return CartItemContainer(
-                        item: item,
-                      );
-                    }).toList(),
-                  );
+                  return provider.cartCount > 0
+                      ? ListView(
+                          shrinkWrap: true,
+                          children: provider.cart.map((CartItem item) {
+                            return CartItemContainer(
+                              item: item,
+                            );
+                          }).toList(),
+                        )
+                      : Center(
+                          child: Text(
+                            "Your cart is empty 😔😔",
+                            style: TextStyle(
+                              fontSize: sy(12),
+                              color: Theme.of(context).disabledColor,
+                            ),
+                          ),
+                        );
                 }),
               ),
               Consumer<ShopProvider>(builder: (context, provider, _) {
