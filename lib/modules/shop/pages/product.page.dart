@@ -194,19 +194,24 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             Row(
                               children: [
-                                Container(
-                                  height: 35,
-                                  width: 35,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
+                                InkWell(
+                                  onTap: () =>
+                                      provider.decrementProductQuantityInCart(
+                                          widget.product),
+                                  child: Container(
+                                    height: 35,
+                                    width: 35,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: AppColors.darkBlue,
+                                      ),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Icon(
+                                      Icons.remove,
                                       color: AppColors.darkBlue,
                                     ),
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: AppColors.darkBlue,
                                   ),
                                 ),
                                 SizedBox(
@@ -223,19 +228,21 @@ class _ProductPageState extends State<ProductPage> {
                                 SizedBox(
                                   width: sx(15),
                                 ),
-                                Container(
-                                  height: 35,
-                                  width: 35,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
+                                InkWell(
+                                  onTap: () =>
+                                      provider.addProductToCart(widget.product),
+                                  child: Container(
+                                    height: 35,
+                                    width: 35,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
                                       color: AppColors.darkBlue,
+                                      borderRadius: BorderRadius.circular(7),
                                     ),
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: AppColors.darkBlue,
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -243,6 +250,88 @@ class _ProductPageState extends State<ProductPage> {
                           ],
                         );
                       }),
+                      SizedBox(
+                        height: sy(20),
+                      ),
+                      Consumer<ShopProvider>(builder: (context, provider, _) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Total:",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: sy(10),
+                                      fontFamily: "Overpass",
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        " ${provider.totalProductCostInCart(widget.product) > 1000 ? provider.totalProductCostInCart(widget.product).money.compactSymbolOnLeft : provider.totalProductCostInCart(widget.product).money.symbolOnLeft}",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: sy(18),
+                                      fontFamily: "Overpass",
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Cart Total:",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: sy(10),
+                                      fontFamily: "Overpass",
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        " ${provider.cartTotal > 1000 ? provider.cartTotal.money.compactSymbolOnLeft : provider.cartTotal.money.symbolOnLeft}",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: sy(18),
+                                      fontFamily: "Overpass",
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                      SizedBox(
+                        height: sy(30),
+                      ),
+                      Container(
+                        width: context.width,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(
+                          vertical: sy(13),
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.darkBlue,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Text(
+                          "Quick Checkout",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: sy(10),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -7,6 +7,7 @@ import 'package:food_delivery/modules/shop/providers/navigation.provider.shop.da
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/modules/splash.dart';
 import 'package:food_delivery/services/index.dart';
+import 'package:food_delivery/utils/managers/dialog.manager.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -48,6 +49,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: "Overpass",
+      ),
+      builder: (context, widget) => Navigator(
+        onGenerateRoute: (route) => MaterialPageRoute(
+          builder: (context) => DialogManager(child: widget!),
+        ),
       ),
       home: const SplashScreen(),
     );

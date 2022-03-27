@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/modules/shop/models/cart_item.model.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
+import 'package:food_delivery/services/dialog.service.dart';
+import 'package:food_delivery/services/index.dart';
 import 'package:food_delivery/utils/extensions/iterations.extension.dart';
 import 'package:uuid/uuid.dart';
 
 class ShopProvider extends ChangeNotifier {
+  final dialogService = locator<DialogService>();
+
   final List<Product> _products = [
     Product(
       id: const Uuid().v4(),
@@ -67,6 +71,7 @@ class ShopProvider extends ChangeNotifier {
       reviews: [],
     ),
   ];
+
   List<CartItem> _cart = [];
 
   // Check if product exists in cart
@@ -94,6 +99,22 @@ class ShopProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Decrement Product in cart
+  void decrementProductQuantityInCart(Product product) {
+    if (productExistsInCart(product)) {
+      CartItem? item = getCartItemFromProduct(product);
+      if (item != null) {
+        decrementCartItemCount(item);
+      }
+    }
+  }
+
+  // Get product's related cart item from cart
+  CartItem? getCartItemFromProduct(Product product) {
+    return _cart
+        .firstWhereOrNull((CartItem item) => item.product.id == product.id);
+  }
+
   // Decrement cart item count
   void decrementCartItemCount(CartItem cartItem) {
     if (cartItem.quantity > 1) {
@@ -112,7 +133,25 @@ class ShopProvider extends ChangeNotifier {
         0;
   }
 
+  // Get product item total cost in cart
+  double totalProductCostInCart(Product product) {
+    CartItem? item = getCartItemFromProduct(product);
+    if (item != null) {
+      return item.quantity * item.product.price;
+    } else {
+      return 0;
+    }
+  }
+
   List<Product> get products => _products;
   List<CartItem> get cart => _cart;
   int get cartCount => _cart.length;
+  double get cartTotal {
+    double total = 0;
+    for (CartItem item in _cart) {
+      total += item.quantity * item.product.price;
+    }
+
+    return total;
+  }
 }
