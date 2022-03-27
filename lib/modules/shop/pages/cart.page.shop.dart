@@ -61,7 +61,7 @@ class _CartPageState extends State<CartPage> {
               Consumer<ShopProvider>(builder: (context, provider, _) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFFE9EEFF),
+                    color: const Color(0xFFE9EEFF),
                     borderRadius: BorderRadius.circular(13),
                   ),
                   child: Column(
@@ -92,7 +92,7 @@ class _CartPageState extends State<CartPage> {
                                       : provider.cartTotal.money.symbolOnLeft,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.normal,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: sy(12),
                                   ),
                                 ),
@@ -118,7 +118,7 @@ class _CartPageState extends State<CartPage> {
                                       : 0.toDouble().money.symbolOnLeft,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.normal,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: sy(12),
                                   ),
                                 ),
@@ -145,7 +145,7 @@ class _CartPageState extends State<CartPage> {
                                       : provider.cartTotal.money.symbolOnLeft,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.normal,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: sy(12),
                                   ),
                                 ),
