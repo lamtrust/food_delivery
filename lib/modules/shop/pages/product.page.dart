@@ -239,7 +239,7 @@ class _ProductPageState extends State<ProductPage> {
                                       color: AppColors.darkBlue,
                                       borderRadius: BorderRadius.circular(7),
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.add,
                                       color: Colors.white,
                                     ),

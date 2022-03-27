@@ -143,6 +143,12 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
+  // Increment cart item quantity
+  void incrementCartItemQuantity(CartItem item) {
+    item.increment();
+    notifyListeners();
+  }
+
   List<Product> get products => _products;
   List<CartItem> get cart => _cart;
   int get cartCount => _cart.length;
