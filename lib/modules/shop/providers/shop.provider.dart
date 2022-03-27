@@ -73,6 +73,7 @@ class ShopProvider extends ChangeNotifier {
   ];
 
   List<CartItem> _cart = [];
+  List<Product> _favourites = [];
 
   // Check if product exists in cart
   bool productExistsInCart(Product product) {
@@ -149,6 +150,21 @@ class ShopProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Add to favourites
+  void handleFavourites(Product product) {
+    if (!isFavourite(product)) {
+      _favourites.add(product);
+    } else {
+      _favourites.remove(product);
+    }
+    notifyListeners();
+  }
+
+  // Product exists in favourites
+  bool isFavourite(Product product) {
+    return _favourites.any((Product _) => _.id == product.id);
+  }
+
   List<Product> get products => _products;
   List<CartItem> get cart => _cart;
   int get cartCount => _cart.length;
@@ -160,4 +176,6 @@ class ShopProvider extends ChangeNotifier {
 
     return total;
   }
+
+  List<Product> get favourites => _favourites;
 }

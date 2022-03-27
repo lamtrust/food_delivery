@@ -152,22 +152,27 @@ class _ProductPageState extends State<ProductPage> {
                   Positioned(
                     top: sy(10),
                     right: sx(20),
-                    child: InkWell(
-                      onTap: () => context.goBack(),
-                      child: Container(
-                        height: 35,
-                        width: 35,
-                        decoration: BoxDecoration(
-                          color: AppColors.darkBlue,
-                          borderRadius: BorderRadius.circular(10),
+                    child:
+                        Consumer<ShopProvider>(builder: (context, provider, _) {
+                      return InkWell(
+                        onTap: () => provider.handleFavourites(widget.product),
+                        child: Container(
+                          height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            color: AppColors.darkBlue,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            provider.isFavourite(widget.product)
+                                ? Icons.favorite
+                                : Icons.favorite_outline,
+                            color: Colors.white,
+                            size: sy(10),
+                          ),
                         ),
-                        child: Icon(
-                          Icons.favorite_outline,
-                          color: Colors.white,
-                          size: sy(10),
-                        ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
                 ],
               ),
