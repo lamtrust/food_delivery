@@ -177,5 +177,14 @@ class ShopProvider extends ChangeNotifier {
     return total;
   }
 
+  int get cartTotalItems {
+    int total = 0;
+    for (CartItem item in _cart) {
+      total += item.quantity;
+    }
+
+    return total;
+  }
+
   List<Product> get favourites => _favourites;
 }

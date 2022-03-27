@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:food_delivery/modules/shop/providers/navigation.provider.shop.dart';
+import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
@@ -39,32 +40,60 @@ class _StoreFrontState extends State<StoreFront> {
             },
             currentIndex: provider.currentIndex,
             itemChanged: (int? index) => provider.currentIndex = index!,
-            items: const [
-              BottomNavigationBarItem(
+            items: [
+              const BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/icons/home.png"),
                 ),
                 label: "Home",
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/icons/explore.png"),
                 ),
                 label: "Explore",
               ),
               BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/icons/cart.png"),
-                ),
+                icon: Consumer<ShopProvider>(builder: (context, provider, _) {
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      const ImageIcon(
+                        AssetImage("assets/icons/cart.png"),
+                      ),
+                      Positioned(
+                        top: -5,
+                        right: -10,
+                        child: Container(
+                          height: 20,
+                          width: 20,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            color: Colors.blueAccent,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            "${provider.cartTotalItems}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: sy(7),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
                 label: "Cart",
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/icons/favourite.png"),
                 ),
                 label: "Favourites",
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/icons/account.png"),
                 ),
