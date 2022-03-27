@@ -45,7 +45,11 @@ flutter:
     - assets/icons/
 
   fonts:
-    - family: Heebo
+    - family: Overpass
       fonts:
-        - asset: fonts/Heebo-Regular.ttf
+        - asset: fonts/Overpass-Regular.ttf
+        - asset: fonts/Overpass-Bold.ttf
+          weight: 700
+        - asset: fonts/Overpass-ExtraBold.ttf
+          weight: 900
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/configs/index.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
+import 'package:food_delivery/widgets/category_icon.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 class HomePage extends StatefulWidget {
@@ -189,8 +190,45 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Categories"),
-                Text("view all"),
+                Text(
+                  "Categories",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: sy(10),
+                  ),
+                ),
+                Text(
+                  "view all",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.normal,
+                    fontSize: sy(10),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: sy(15),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: const [
+                CategoryIcon(
+                  categoryName: "Food",
+                ),
+                CategoryIcon(
+                  categoryName: "Drink",
+                ),
+                CategoryIcon(
+                  categoryName: "Burger",
+                ),
+                CategoryIcon(
+                  categoryName: "Regular",
+                ),
+                CategoryIcon(
+                  categoryName: "Chips",
+                ),
               ],
             ),
           ],
