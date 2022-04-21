@@ -33,7 +33,7 @@ class CartItemContainer extends StatelessWidget {
           children: [
             FadeInImage.assetNetwork(
               placeholder: "assets/images/loading.gif",
-              image: item.product.images.first,
+              image: item.product.image,
               height: sy(40),
               width: sx(100),
             ),

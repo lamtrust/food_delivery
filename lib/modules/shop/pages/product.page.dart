@@ -54,7 +54,7 @@ class _ProductPageState extends State<ProductPage> {
                               alignment: Alignment.center,
                               child: FadeInImage.assetNetwork(
                                 placeholder: "assets/images/loading.gif",
-                                image: widget.product.images.first,
+                                image: widget.product.image,
                                 fit: BoxFit.cover,
                                 placeholderFit: BoxFit.scaleDown,
                                 height: sy(99),

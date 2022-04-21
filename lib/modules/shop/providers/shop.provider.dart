@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/modules/shop/controllers/products.dart';
 import 'package:food_delivery/modules/shop/models/cart_item.model.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
 import 'package:food_delivery/services/dialog.service.dart';
@@ -9,71 +10,40 @@ import 'package:uuid/uuid.dart';
 class ShopProvider extends ChangeNotifier {
   final dialogService = locator<DialogService>();
 
-  final List<Product> _products = [
-    Product(
-      id: const Uuid().v4(),
-      name: "Coca-Cola",
-      price: 2.5,
-      rating: 1.5,
-      description:
-          "Coca-Cola is a carbonated soft drink manufactured by The Coca-Cola Company.",
-      images: [
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397316/istockphoto-452813985-612x612-removebg-preview_rlvujm.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397509/Screenshot_from_2022-03-27_18-08-39-removebg-preview_apu9g2.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397512/Screenshot_from_2022-03-27_18-09-03-removebg-preview_vyv3qq.png",
-      ],
-      isFeatured: false,
-      reviews: [],
-    ),
-    Product(
-      id: const Uuid().v4(),
-      name: "Fanta",
-      price: 1.5,
-      rating: 1.5,
-      description:
-          "Fanta is a carbonated soft drink manufactured by The Coca-Cola Company.",
-      images: [
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397509/Screenshot_from_2022-03-27_18-08-39-removebg-preview_apu9g2.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397316/istockphoto-452813985-612x612-removebg-preview_rlvujm.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397512/Screenshot_from_2022-03-27_18-09-03-removebg-preview_vyv3qq.png",
-      ],
-      isFeatured: false,
-      reviews: [],
-    ),
-    Product(
-      id: const Uuid().v4(),
-      name: "Coca-Cola",
-      price: 1.5,
-      rating: 1.5,
-      description:
-          "Coca-Cola is a carbonated soft drink manufactured by The Coca-Cola Company.",
-      images: [
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397512/Screenshot_from_2022-03-27_18-09-03-removebg-preview_vyv3qq.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397316/istockphoto-452813985-612x612-removebg-preview_rlvujm.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397509/Screenshot_from_2022-03-27_18-08-39-removebg-preview_apu9g2.png",
-      ],
-      isFeatured: false,
-      reviews: [],
-    ),
-    Product(
-      id: const Uuid().v4(),
-      name: "Coca-Cola",
-      price: 1.5,
-      rating: 1.5,
-      description:
-          "Coca-Cola is a carbonated soft drink manufactured by The Coca-Cola Company.",
-      images: [
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397316/istockphoto-452813985-612x612-removebg-preview_rlvujm.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397509/Screenshot_from_2022-03-27_18-08-39-removebg-preview_apu9g2.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397512/Screenshot_from_2022-03-27_18-09-03-removebg-preview_vyv3qq.png",
-      ],
-      isFeatured: false,
-      reviews: [],
-    ),
-  ];
+  List<Product> _products = [];
 
   List<CartItem> _cart = [];
   List<Product> _favourites = [];
+
+  Future<List<Product>> getProducts() async {
+    Map<String, dynamic>? response = await ProductsController.getProducts();
+    if (response != null) {
+      try {
+        List<Map<String, dynamic>> products = response['products']
+            .map<Map<String, dynamic>>((p) => p as Map<String, dynamic>)
+            .toList() as List<Map<String, dynamic>>;
+        List<Product> _rProducts = [];
+        for (Map<String, dynamic> product in products) {
+          Product _product = Product(
+            description: product['description'],
+            id: product['id'].toString(),
+            name: product['name'],
+            price: product['price'].toDouble(),
+            rating: 0,
+            isFeatured: false,
+            reviews: [],
+            image: "http://tngrill.co.zw/storage/product/${product['image']}",
+          );
+          _rProducts.add(_product);
+        }
+
+        _products = _rProducts;
+      } catch (error, stacktrace) {
+        print("Error: $error -> $stacktrace");
+      }
+    }
+    return _products;
+  }
 
   // Check if product exists in cart
   bool productExistsInCart(Product product) {

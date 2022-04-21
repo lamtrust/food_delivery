@@ -222,14 +222,33 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: Consumer<ShopProvider>(builder: (context, provider, _) {
-                return GridView.count(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.76,
-                  crossAxisSpacing: sx(20),
-                  mainAxisSpacing: sy(10),
-                  children: provider.products.map((Product product) {
-                    return ProductContainer(product: product);
-                  }).toList(),
+                return FutureBuilder(
+                  future: provider.getProducts(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Product>> snapshot) {
+                    while (
+                        snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: Container(
+                          height: 15,
+                          width: 15,
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+
+                    List<Product> products = snapshot.data!;
+
+                    return GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.76,
+                      crossAxisSpacing: sx(20),
+                      mainAxisSpacing: sy(10),
+                      children: products.map((Product product) {
+                        return ProductContainer(product: product);
+                      }).toList(),
+                    );
+                  },
                 );
               }),
             ),

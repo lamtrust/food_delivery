@@ -56,7 +56,7 @@ class ProductContainer extends StatelessWidget {
                   ),
                   child: FadeInImage.assetNetwork(
                     placeholder: "assets/images/loading.gif",
-                    image: product.images.first,
+                    image: product.image,
                     fit: BoxFit.cover,
                     placeholderFit: BoxFit.cover,
                     height: sy(99),

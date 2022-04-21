@@ -1,7 +1,7 @@
 class Product {
   String id;
   String name;
-  List<String> images;
+  String image;
   String description;
   List<String> reviews;
   double rating;
@@ -11,7 +11,7 @@ class Product {
   Product({
     required this.id,
     required this.name,
-    required this.images,
+    required this.image,
     required this.description,
     required this.rating,
     required this.price,
