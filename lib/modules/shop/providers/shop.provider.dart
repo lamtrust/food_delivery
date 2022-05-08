@@ -208,12 +208,16 @@ class ShopProvider extends ChangeNotifier {
     );
   }
 
+  List<Map<String, dynamic>> _addresses = [];
+
   Future<List<Map<String, dynamic>>?> getAddresses() async {
     List<Map<String, dynamic>>? data = await ProfileController.getAddresses(
       token: _token!,
     );
 
-    print("Response: ${data}");
+    if (data != null && data.isNotEmpty) {
+      _addresses = data;
+    }
 
     return data;
   }
