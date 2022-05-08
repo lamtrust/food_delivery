@@ -33,7 +33,68 @@ class Authenticated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
-      return Container();
+      return Consumer<ShopProvider>(builder: (context, state, _) {
+        return Container(
+          height: context.height,
+          width: context.width,
+          child: Column(
+            children: [
+              SizedBox(
+                height: sy(20),
+              ),
+              Container(
+                height: 180,
+                width: 180,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              SizedBox(
+                height: sy(15),
+              ),
+              Text(
+                state.profile!.name,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: sy(12),
+                ),
+              ),
+              state.profile!.emailVerified
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          state.profile!.email,
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontWeight: FontWeight.normal,
+                            fontSize: sy(10),
+                          ),
+                        ),
+                        SizedBox(
+                          width: sx(10),
+                        ),
+                        const Image(
+                          image: AssetImage("assets/icons/emails.png"),
+                          height: 20,
+                          width: 20,
+                        ),
+                      ],
+                    )
+                  : Text(
+                      state.profile!.email,
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.normal,
+                        fontSize: sy(10),
+                      ),
+                    ),
+            ],
+          ),
+        );
+      });
     });
   }
 }

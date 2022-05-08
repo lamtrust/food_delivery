@@ -30,4 +30,5 @@ class Profile {
   Map<String, dynamic> toJson() => _$ProfileToJson(this);
 
   bool get emailVerified => emailVerifiedAt != null;
+  String get name => '$firstName $lastName';
 }

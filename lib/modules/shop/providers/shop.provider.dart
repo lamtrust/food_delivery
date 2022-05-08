@@ -191,4 +191,5 @@ class ShopProvider extends ChangeNotifier {
   List<Product> get favourites => _favourites;
   String? get token => _token;
   bool get authenticated => _token != null;
+  Profile? get profile => _profile;
 }
