@@ -208,6 +208,12 @@ class ShopProvider extends ChangeNotifier {
     );
   }
 
+  Future getAddresses() async {
+    return await ProfileController.getAddresses(
+      token: _token!,
+    );
+  }
+
   // END OF ADDRESS BLOCK
 
   List<Product> get products => _products;

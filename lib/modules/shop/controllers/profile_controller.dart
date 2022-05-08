@@ -67,4 +67,31 @@ class ProfileController {
       return false;
     }
   }
+
+  static Future getAddresses({
+    required String token,
+  }) async {
+    try {
+      Response response = await _dio.get(
+        "${ApiConfig.BASE_URL}/customer/address/list",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        print(response.data);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      if (error is DioError) {
+        handleDioErrors(error);
+      }
+      return false;
+    }
+  }
 }

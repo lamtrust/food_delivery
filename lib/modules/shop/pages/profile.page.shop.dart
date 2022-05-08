@@ -45,12 +45,11 @@ class Authenticated extends StatelessWidget {
               SizedBox(
                 height: sy(20),
               ),
-              Container(
+              const SizedBox(
                 height: 180,
                 width: 180,
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
+                child: Image(
+                  image: AssetImage("assets/images/logo.png"),
                 ),
               ),
               SizedBox(
