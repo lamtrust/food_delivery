@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:food_delivery/configs/index.dart';
+import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/services/index.dart';
 import 'package:food_delivery/services/location.service.dart';
 import 'package:food_delivery/utils/extensions/index.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 class PickExactLocationPage extends StatefulWidget {
@@ -86,7 +89,9 @@ class _PickExactLocationPageState extends State<PickExactLocationPage> {
                                   width: 80.0,
                                   height: 80.0,
                                   point: _pickedLocation!,
-                                  builder: (ctx) => const FlutterLogo(),
+                                  builder: (ctx) => Image(
+                                    image: AssetImage("assets/icons/pin.png"),
+                                  ),
                                 ),
                               ],
                             )
@@ -95,6 +100,15 @@ class _PickExactLocationPageState extends State<PickExactLocationPage> {
                   );
                 }),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.darkBlue,
+          child: const Text("Done"),
+          onPressed: () {
+            Provider.of<ShopProvider>(context, listen: false).setLocation =
+                _pickedLocation;
+            context.goBack();
+          },
         ),
       );
     });

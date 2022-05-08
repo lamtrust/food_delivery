@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/modules/shop/controllers/auth_controller.dart';
 import 'package:food_delivery/modules/shop/controllers/products.dart';
+import 'package:food_delivery/modules/shop/controllers/profile_controller.dart';
 import 'package:food_delivery/modules/shop/models/cart_item.model.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
 import 'package:food_delivery/modules/shop/models/profile.dart';
@@ -8,10 +9,11 @@ import 'package:food_delivery/services/dialog.service.dart';
 import 'package:food_delivery/services/index.dart';
 import 'package:food_delivery/services/storage.service.dart';
 import 'package:food_delivery/utils/extensions/iterations.extension.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:uuid/uuid.dart';
 
 class ShopProvider extends ChangeNotifier {
-  final DialogService dialogService = locator<DialogService>();
+  final DialogService _dialogService = locator<DialogService>();
   final StorageService _storageService = locator<StorageService>();
 
   List<Product> _products = [];
@@ -174,6 +176,40 @@ class ShopProvider extends ChangeNotifier {
     return _favourites.any((Product _) => _.id == product.id);
   }
 
+  // ADDRESS BLOCK
+  LatLng? _location;
+
+  set setLocation(LatLng? data) {
+    _location = data;
+    notifyListeners();
+  }
+
+  Future<bool> saveAddress({
+    required String name,
+    required String phone,
+    required String address,
+    required String addressType,
+  }) async {
+    if (_location == null) {
+      _dialogService.showNotification(
+        message: "Please select an exact location",
+        isError: true,
+      );
+      return false;
+    }
+    return await ProfileController.saveAddress(
+      name: name,
+      phone: phone,
+      address: address,
+      latitude: _location!.latitude,
+      longitude: _location!.longitude,
+      addressType: addressType,
+      token: _token!,
+    );
+  }
+
+  // END OF ADDRESS BLOCK
+
   List<Product> get products => _products;
   List<CartItem> get cart => _cart;
   int get cartCount => _cart.length;
@@ -199,4 +235,5 @@ class ShopProvider extends ChangeNotifier {
   String? get token => _token;
   bool get authenticated => _token != null;
   Profile? get profile => _profile;
+  LatLng? get location => _location;
 }
