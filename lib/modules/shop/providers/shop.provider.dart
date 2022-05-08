@@ -1,25 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/modules/shop/controllers/auth_controller.dart';
 import 'package:food_delivery/modules/shop/controllers/products.dart';
 import 'package:food_delivery/modules/shop/models/cart_item.model.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
+import 'package:food_delivery/modules/shop/models/profile.dart';
 import 'package:food_delivery/services/dialog.service.dart';
 import 'package:food_delivery/services/index.dart';
+import 'package:food_delivery/services/storage.service.dart';
 import 'package:food_delivery/utils/extensions/iterations.extension.dart';
 import 'package:uuid/uuid.dart';
 
 class ShopProvider extends ChangeNotifier {
-  final dialogService = locator<DialogService>();
+  final DialogService dialogService = locator<DialogService>();
+  final StorageService _storageService = locator<StorageService>();
 
   List<Product> _products = [];
   List<CartItem> _cart = [];
   List<Product> _favourites = [];
 
+  ShopProvider() {
+    String? token = _storageService.getFromDisk("token");
+    Future.delayed(const Duration(seconds: 1), () => setToken = token);
+  }
+
+  // AUTHENTICATION BLOCK
   String? _token;
+  Profile? _profile;
 
   set setToken(String? token) {
     _token = token;
     notifyListeners();
+    _token != null ? getAuthenticatedProfile() : null;
   }
+
+  getAuthenticatedProfile() async {
+    Map<String, dynamic>? profile =
+        await AuthController.getAuthenticatedProfile(token: _token!);
+    if (profile != null) {
+      _profile = Profile.fromJson(profile);
+      notifyListeners();
+    }
+  }
+
+  // END OF AUTHENTICATION BLOCK
 
   Future<List<Product>> getProducts() async {
     if (_products.isNotEmpty) {

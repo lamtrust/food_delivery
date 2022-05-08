@@ -3,6 +3,7 @@ import 'package:food_delivery/modules/shop/controllers/auth_controller.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/services/dialog.service.dart';
 import 'package:food_delivery/services/index.dart';
+import 'package:food_delivery/services/storage.service.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,7 @@ class RegisterProvider extends ChangeNotifier {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final StorageService _storageService = locator<StorageService>();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -38,6 +40,7 @@ class RegisterProvider extends ChangeNotifier {
       );
 
       final storeProvider = Provider.of<ShopProvider>(context, listen: false);
+      _storageService.saveToDisk("token", token);
       storeProvider.setToken = token;
       context.goBack();
     }
