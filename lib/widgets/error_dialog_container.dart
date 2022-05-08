@@ -87,12 +87,7 @@ class ErrorDialogContainer extends StatelessWidget {
                 onTap: () {
                   if (onButtonClick != null) {
                     onButtonClick!();
-                    // if (isLogout == true) {
-                    //   context.routeTo(
-                    //     page: LoginScreen(),
-                    //     replace: true,
-                    //   );
-                    // }
+                    context.goBack();
                   } else {
                     context.goBack();
                   }

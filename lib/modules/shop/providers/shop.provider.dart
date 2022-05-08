@@ -42,6 +42,13 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
+  void logout() {
+    _storageService.saveToDisk("token", null);
+    _token = null;
+    _profile = null;
+    notifyListeners();
+  }
+
   // END OF AUTHENTICATION BLOCK
 
   Future<List<Product>> getProducts() async {

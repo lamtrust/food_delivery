@@ -1,0 +1,1 @@
+enum AddressType { Personal, Other }
