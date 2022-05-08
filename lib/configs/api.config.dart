@@ -1,5 +1,5 @@
 class ApiConfig {
-  static String API = "http://161.35.83.65/api";
+  static String API = "http://tngrill.co.zw/api";
 
   /// Base url containing [API] and [API_VERSION]
   static String BASE_URL = "$API";

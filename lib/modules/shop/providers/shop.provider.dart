@@ -11,11 +11,20 @@ class ShopProvider extends ChangeNotifier {
   final dialogService = locator<DialogService>();
 
   List<Product> _products = [];
-
   List<CartItem> _cart = [];
   List<Product> _favourites = [];
 
+  String? _token;
+
+  set setToken(String? token) {
+    _token = token;
+    notifyListeners();
+  }
+
   Future<List<Product>> getProducts() async {
+    if (_products.isNotEmpty) {
+      return _products;
+    }
     Map<String, dynamic>? response = await ProductsController.getProducts();
     if (response != null) {
       try {
@@ -157,4 +166,6 @@ class ShopProvider extends ChangeNotifier {
   }
 
   List<Product> get favourites => _favourites;
+  String? get token => _token;
+  bool get authenticated => _token != null;
 }

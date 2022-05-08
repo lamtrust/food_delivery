@@ -112,10 +112,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                           SizedBox(
-                            height: sy(20),
+                            height: sy(10),
                           ),
                           Text(
-                            "Your Name ",
+                            "Your First Name ",
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -135,9 +135,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: TextFormField(
-                              controller: provider.nameController,
+                              controller: provider.firstNameController,
                               decoration: InputDecoration(
-                                hintText: "Full Name",
+                                hintText: "First Name",
                                 hintStyle: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.normal,
@@ -150,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   AutovalidateMode.onUserInteraction,
                               validator: (String? name) {
                                 if (name!.isEmpty) {
-                                  return "Full Name is required!";
+                                  return "First Name is required!";
                                 }
 
                                 return null;
@@ -158,7 +158,103 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                           SizedBox(
-                            height: sy(20),
+                            height: sy(10),
+                          ),
+                          Text(
+                            "Your Last Name ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: sy(10),
+                            ),
+                          ),
+                          SizedBox(
+                            height: sy(5),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: sx(20),
+                              vertical: sy(2),
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE9EEFF),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextFormField(
+                              controller: provider.lastNameController,
+                              decoration: InputDecoration(
+                                hintText: "Last Name",
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: sy(9),
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              keyboardType: TextInputType.name,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (String? name) {
+                                if (name!.isEmpty) {
+                                  return "Last Name is required!";
+                                }
+
+                                return null;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: sy(10),
+                          ),
+                          Text(
+                            "Your Phone Number",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: sy(10),
+                            ),
+                          ),
+                          SizedBox(
+                            height: sy(5),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: sx(20),
+                              vertical: sy(2),
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE9EEFF),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextFormField(
+                              controller: provider.phoneController,
+                              decoration: InputDecoration(
+                                hintText: "Phone Number",
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: sy(9),
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              keyboardType: TextInputType.phone,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (String? phone) {
+                                if (phone!.isEmpty) {
+                                  return "Phone Number is required!";
+                                }
+
+                                if (!LocalRegex.isValidZimMobile(phone)) {
+                                  return "Phone number is not valid!";
+                                }
+
+                                return null;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: sy(10),
                           ),
                           Text(
                             "Password",
@@ -198,7 +294,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       : const Icon(CupertinoIcons.eye),
                                 ),
                               ),
-                              obscureText: provider.showPassword,
+                              obscureText: !provider.showPassword,
                               keyboardType: TextInputType.text,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -214,23 +310,26 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(
                             height: sy(30),
                           ),
-                          Container(
-                            width: context.width,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: sx(20),
-                              vertical: sy(12),
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.darkBlue,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              "Register",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: sy(10),
+                          GestureDetector(
+                            onTap: () => provider.register(context),
+                            child: Container(
+                              width: context.width,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: sx(20),
+                                vertical: sy(12),
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.darkBlue,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                "Register",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: sy(10),
+                                ),
                               ),
                             ),
                           ),
