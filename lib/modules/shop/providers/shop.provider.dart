@@ -208,10 +208,14 @@ class ShopProvider extends ChangeNotifier {
     );
   }
 
-  Future getAddresses() async {
-    return await ProfileController.getAddresses(
+  Future<List<Map<String, dynamic>>?> getAddresses() async {
+    List<Map<String, dynamic>>? data = await ProfileController.getAddresses(
       token: _token!,
     );
+
+    print("Response: ${data}");
+
+    return data;
   }
 
   // END OF ADDRESS BLOCK

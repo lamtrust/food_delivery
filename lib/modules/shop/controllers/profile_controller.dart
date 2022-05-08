@@ -68,7 +68,7 @@ class ProfileController {
     }
   }
 
-  static Future getAddresses({
+  static Future<List<Map<String, dynamic>>?> getAddresses({
     required String token,
   }) async {
     try {
@@ -82,16 +82,18 @@ class ProfileController {
       );
 
       if (response.statusCode == 200) {
-        print(response.data);
-        return true;
+        List<Map<String, dynamic>>? data = response.data
+            .map<Map<String, dynamic>>((item) => item as Map<String, dynamic>)
+            .toList();
+        return data;
       } else {
-        return false;
+        return null;
       }
     } catch (error) {
       if (error is DioError) {
         handleDioErrors(error);
       }
-      return false;
+      return null;
     }
   }
 }

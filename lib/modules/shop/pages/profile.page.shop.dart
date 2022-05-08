@@ -3,6 +3,7 @@ import 'package:food_delivery/configs/theme.config.dart';
 import 'package:food_delivery/modules/auth/pages/login.page.auth.dart';
 import 'package:food_delivery/modules/auth/pages/register.page.auth.dart';
 import 'package:food_delivery/modules/shop/pages/add_address.dart';
+import 'package:food_delivery/modules/shop/pages/manage_addresses.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/services/dialog.service.dart';
 import 'package:food_delivery/services/index.dart';
@@ -124,7 +125,9 @@ class Authenticated extends StatelessWidget {
                 height: sy(20),
               ),
               GestureDetector(
-                onTap: null,
+                onTap: () => context.routeTo(
+                  page: const ManageAddressesPage(),
+                ),
                 child: Container(
                   width: context.width,
                   alignment: Alignment.center,
