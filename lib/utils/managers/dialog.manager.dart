@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:app_settings/app_settings.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/services/dialog.service.dart';
 import 'package:food_delivery/services/index.dart';
@@ -44,7 +43,6 @@ class _DialogManagerState extends State<DialogManager> {
           buttonText: "SETTINGS",
           onButtonClick: () {
             context.goBack();
-            AppSettings.openAppSettings();
           },
         );
       }

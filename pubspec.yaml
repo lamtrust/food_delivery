@@ -24,10 +24,9 @@ dependencies:
   intl:
   path_provider:
   money_formatter:
-  connectivity:
-  app_settings:
+  connectivity_plus:
   json_annotation:
-  flutter_map: ^0.14.0
+  flutter_map: ^1.1.0
   location: ^4.3.0
 
 dev_dependencies:
@@ -36,7 +35,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 flutter:
 
