@@ -4,7 +4,6 @@ import 'package:food_delivery/modules/shop/models/product.model.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/widgets/category_icon.dart';
-import 'package:food_delivery/widgets/deliver_to.dart';
 import 'package:food_delivery/widgets/product_container.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
@@ -28,10 +27,6 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Column(
           children: [
-            const DeliverTo(),
-            SizedBox(
-              height: sy(20),
-            ),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,

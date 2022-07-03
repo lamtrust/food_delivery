@@ -316,7 +316,6 @@ class _ProductPageState extends State<ProductPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
                                       fontSize: sy(10),
-                                      fontFamily: "Overpass",
                                     ),
                                   ),
                                   TextSpan(
@@ -325,8 +324,7 @@ class _ProductPageState extends State<ProductPage> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900,
-                                      fontSize: sy(18),
-                                      fontFamily: "Overpass",
+                                      fontSize: sy(15),
                                     ),
                                   ),
                                 ],
@@ -341,7 +339,6 @@ class _ProductPageState extends State<ProductPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
                                       fontSize: sy(10),
-                                      fontFamily: "Overpass",
                                     ),
                                   ),
                                   TextSpan(
@@ -350,8 +347,7 @@ class _ProductPageState extends State<ProductPage> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900,
-                                      fontSize: sy(18),
-                                      fontFamily: "Overpass",
+                                      fontSize: sy(15),
                                     ),
                                   ),
                                 ],

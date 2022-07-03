@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/configs/theme.config.dart';
 import 'package:food_delivery/modules/shop/models/cart_item.model.dart';
+import 'package:food_delivery/modules/shop/pages/checkout.page.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/utils/extensions/double.extension.dart';
 import 'package:food_delivery/widgets/cart_item_container.dart';
-import 'package:food_delivery/widgets/deliver_to.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
 
@@ -30,11 +30,6 @@ class _CartPageState extends State<CartPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const DeliverTo(),
-              const Divider(),
-              SizedBox(
-                height: sy(10),
-              ),
               Text(
                 "My Cart",
                 style: TextStyle(
@@ -164,22 +159,29 @@ class _CartPageState extends State<CartPage> {
                           ],
                         ),
                       ),
-                      Container(
-                        width: context.width,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(
-                          vertical: sy(10),
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.darkBlue,
-                          borderRadius: BorderRadius.circular(13),
-                        ),
-                        child: Text(
-                          "Checkout",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: sy(12),
+                      GestureDetector(
+                        onTap: () {
+                          context.routeTo(
+                            page: const CheckoutPage(),
+                          );
+                        },
+                        child: Container(
+                          width: context.width,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(
+                            vertical: sy(10),
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.darkBlue,
+                            borderRadius: BorderRadius.circular(13),
+                          ),
+                          child: Text(
+                            "Checkout",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: sy(12),
+                            ),
                           ),
                         ),
                       ),
