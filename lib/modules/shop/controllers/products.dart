@@ -25,6 +25,43 @@ class ProductsController {
     }
   }
 
+  static Future<Response> getOrders({
+    required String access,
+  }) async {
+    try {
+      Dio dio = Dio()
+        ..interceptors.add(
+          LogInterceptor(
+            responseBody: true,
+            requestHeader: true,
+            requestBody: true,
+            request: true,
+            error: true,
+            responseHeader: true,
+          ),
+        );
+      Response response = await dio.get(
+        "${ApiConfig.BASE_URL}/customer/order/list",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $access",
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return response;
+      }
+
+      throw Exception("Failed to load orders");
+    } catch (error) {
+      if (error is DioError) {
+        handleDioErrors(error);
+      }
+      rethrow;
+    }
+  }
+
   static Future<bool> checkout({
     required String access,
     required List<CartItem> cart,
