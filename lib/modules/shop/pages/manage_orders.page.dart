@@ -51,7 +51,7 @@ class _ManageOrdersState extends State<ManageOrders> {
               builder:
                   (BuildContext context, AsyncSnapshot<Response> snapshot) {
                 while (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: SizedBox(
                       height: 20,
                       width: 20,
@@ -61,7 +61,7 @@ class _ManageOrdersState extends State<ManageOrders> {
                 }
 
                 if (snapshot.hasError) {
-                  return Center(
+                  return const Center(
                     child: Text("Error"),
                   );
                 }
