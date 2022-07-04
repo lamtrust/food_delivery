@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:food_delivery/configs/theme.config.dart';
 import 'package:food_delivery/modules/shop/providers/navigation.provider.shop.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
@@ -27,15 +28,15 @@ class _StoreFrontState extends State<StoreFront> {
             ),
             child: PageView(
               controller: provider.pageController,
-              children: provider.pages,
               physics: const NeverScrollableScrollPhysics(),
+              children: provider.pages,
             ),
           ),
           bottomNavBar: PlatformNavBar(
             material: (BuildContext context, PlatformTarget target) {
               return MaterialNavBarData(
                 type: BottomNavigationBarType.fixed,
-                selectedItemColor: context.theme.primaryColorDark,
+                selectedItemColor: AppColors.darkBlue,
               );
             },
             currentIndex: provider.currentIndex,
@@ -68,16 +69,18 @@ class _StoreFrontState extends State<StoreFront> {
                           height: 20,
                           width: 20,
                           alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            color: Colors.blueAccent,
+                          decoration: BoxDecoration(
+                            color: AppColors.darkBlue,
                             shape: BoxShape.circle,
                           ),
-                          child: Text(
-                            "${provider.cartTotalItems}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: sy(7),
+                          child: FittedBox(
+                            child: Text(
+                              "${provider.cartTotalItems}",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: sy(7),
+                              ),
                             ),
                           ),
                         ),

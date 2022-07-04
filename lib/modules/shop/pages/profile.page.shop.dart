@@ -4,6 +4,7 @@ import 'package:food_delivery/modules/auth/pages/login.page.auth.dart';
 import 'package:food_delivery/modules/auth/pages/register.page.auth.dart';
 import 'package:food_delivery/modules/shop/pages/add_address.dart';
 import 'package:food_delivery/modules/shop/pages/manage_addresses.dart';
+import 'package:food_delivery/modules/shop/pages/manage_orders.page.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/services/dialog.service.dart';
 import 'package:food_delivery/services/index.dart';
@@ -140,6 +141,33 @@ class Authenticated extends StatelessWidget {
                   ),
                   child: Text(
                     "Manage Addresses",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: sy(10),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: sy(20),
+              ),
+              GestureDetector(
+                onTap: () => context.routeTo(
+                  page: const ManageOrders(),
+                ),
+                child: Container(
+                  width: context.width,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(
+                    vertical: sy(12),
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.darkBlue,
+                    borderRadius: BorderRadius.circular(13),
+                  ),
+                  child: Text(
+                    "Manage Orders",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

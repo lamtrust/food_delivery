@@ -155,6 +155,11 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
+  void clearCart() {
+    _cart = [];
+    notifyListeners();
+  }
+
   // Increment cart item quantity
   void incrementCartItemQuantity(CartItem item) {
     item.increment();
@@ -223,6 +228,22 @@ class ShopProvider extends ChangeNotifier {
   }
 
   // END OF ADDRESS BLOCK
+
+  // CHECKOUT
+
+  Future<bool> checkout({
+    required int deliveryAddressId,
+    required String paymentMethod,
+  }) async {
+    return await ProductsController.checkout(
+      access: _token!,
+      deliveryAddressId: deliveryAddressId,
+      paymentMethod: paymentMethod,
+      cart: _cart,
+    );
+  }
+
+  // END OF CHECKOUT
 
   List<Product> get products => _products;
   List<CartItem> get cart => _cart;
