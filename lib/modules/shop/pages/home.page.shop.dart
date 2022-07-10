@@ -86,28 +86,17 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: [
                             Text(
-                              "25%",
+                              "We're now open",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w900,
                                 fontSize: sy(13),
                               ),
                             ),
-                            SizedBox(
-                              width: sx(10),
-                            ),
-                            Text(
-                              "off",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: sy(10),
-                              ),
-                            ),
                           ],
                         ),
                         Text(
-                          "Fast Foods",
+                          "6.30am - 7pm",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
@@ -118,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                           height: sy(10),
                         ),
                         Text(
-                          "Valid until 27 April",
+                          "Better deals at TN Grill",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
