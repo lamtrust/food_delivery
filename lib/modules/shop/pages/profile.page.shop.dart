@@ -39,7 +39,7 @@ class Authenticated extends StatelessWidget {
   Widget build(BuildContext context) {
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
       return Consumer<ShopProvider>(builder: (context, state, _) {
-        return Container(
+        return SizedBox(
           height: context.height,
           width: context.width,
           child: Column(
@@ -65,7 +65,7 @@ class Authenticated extends StatelessWidget {
                   fontSize: sy(12),
                 ),
               ),
-              state.profile!.emailVerified
+              (state.profile?.emailVerified ?? false)
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -88,7 +88,7 @@ class Authenticated extends StatelessWidget {
                       ],
                     )
                   : Text(
-                      state.profile!.email,
+                      "${state.profile?.email}",
                       style: TextStyle(
                         color: Colors.black54,
                         fontWeight: FontWeight.normal,

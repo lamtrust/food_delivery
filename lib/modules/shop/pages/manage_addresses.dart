@@ -90,7 +90,7 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
                               1.0,
                               1.0,
                             ),
-                          )
+                          ),
                         ],
                       ),
                       child: Column(
