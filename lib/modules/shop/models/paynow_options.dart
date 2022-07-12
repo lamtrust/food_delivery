@@ -1,0 +1,1 @@
+enum PaynowOptions { ecocash, onemoney }

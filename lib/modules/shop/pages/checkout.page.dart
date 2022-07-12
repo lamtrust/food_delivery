@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/configs/theme.config.dart';
 import 'package:food_delivery/modules/shop/models/cart_item.model.dart';
 import 'package:food_delivery/modules/shop/models/payment_method.dart';
+import 'package:food_delivery/modules/shop/models/paynow_options.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/utils/extensions/double.extension.dart';
+import 'package:localregex/localregex.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
 
@@ -17,9 +19,13 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   PaymentMethod _paymentMethod = PaymentMethod.COD;
+  PaynowOptions _paynowOption = PaynowOptions.ecocash;
+
   Map<String, dynamic>? _address;
 
   Future<List<Map<String, dynamic>>?>? _future;
+
+  final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -101,7 +107,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             );
                           }).toList(),
                           onChanged: (PaymentMethod? value) {
-                            _paymentMethod = value!;
+                            setState(() => _paymentMethod = value!);
                           },
                           decoration: InputDecoration(
                             hintText: "Payment Method",
@@ -125,6 +131,96 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: sy(10),
+                        ),
+                        _paymentMethod == PaymentMethod.Paynow
+                            ? DropdownButtonFormField(
+                                value: _paynowOption,
+                                items: PaynowOptions.values
+                                    .map((PaynowOptions option) {
+                                  return DropdownMenuItem(
+                                    value: option,
+                                    child: Text(
+                                      option.name,
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (PaynowOptions? option) {
+                                  setState(() => _paynowOption = option!);
+                                },
+                                decoration: InputDecoration(
+                                  hintText: "Paynow Option",
+                                  hintStyle: TextStyle(
+                                    color: AppColors.darkBlue,
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.darkBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.darkBlue,
+                                    ),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.darkBlue,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                        SizedBox(
+                          height: sy(10),
+                        ),
+                        _paymentMethod == PaymentMethod.Paynow
+                            ? TextFormField(
+                                controller: controller,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      "${_paynowOption == PaynowOptions.ecocash ? 'Ecocash' : 'OneMoney'} Phone Number",
+                                  hintStyle: TextStyle(
+                                    color: AppColors.darkBlue,
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.darkBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.darkBlue,
+                                    ),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.darkBlue,
+                                    ),
+                                  ),
+                                ),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (String? phonenumber) {
+                                  if (phonenumber!.isEmpty) {
+                                    return "Phone number is required!";
+                                  }
+
+                                  if (_paynowOption == PaynowOptions.ecocash) {
+                                    if (!LocalRegex.isEconet(phonenumber)) {
+                                      return "Not a valid Econet number";
+                                    }
+                                  } else {
+                                    if (!LocalRegex.isNetone(phonenumber)) {
+                                      return "Not a valid Netone number";
+                                    }
+                                  }
+
+                                  return null;
+                                },
+                              )
+                            : const SizedBox.shrink(),
                         SizedBox(
                           height: sy(10),
                         ),
@@ -201,9 +297,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         GestureDetector(
                           onTap: () async {
                             if (_address != null) {
+                              if (_paymentMethod == PaymentMethod.Paynow) {
+                                if (_paynowOption == PaynowOptions.ecocash) {
+                                  if (!LocalRegex.isEconet(controller.text)) {
+                                    context.notification(
+                                      message: "Not a valid econet mobile",
+                                      isError: true,
+                                    );
+                                    return;
+                                  }
+                                } else {
+                                  if (!LocalRegex.isNetone(controller.text)) {
+                                    context.notification(
+                                      message: "Not a valid onemoney mobile",
+                                      isError: true,
+                                    );
+                                    return;
+                                  }
+                                }
+                              }
+
                               bool success = await provider.checkout(
-                                  deliveryAddressId: _address!["id"],
-                                  paymentMethod: _paymentMethod.name);
+                                deliveryAddressId: _address!["id"],
+                                paymentMethod: _paymentMethod.name,
+                                paymentType: _paynowOption.name,
+                                phoneNumber: controller.text,
+                              );
+
                               if (success) {
                                 provider.clearCart();
                                 if (mounted) {

@@ -62,7 +62,7 @@ class ProductsController {
     }
   }
 
-  static Future<bool> checkout({
+  static Future<String?> checkout({
     required String access,
     required List<CartItem> cart,
     required int deliveryAddressId,
@@ -110,16 +110,67 @@ class ProductsController {
       locator<DialogService>().dialogComplete();
 
       if (response.statusCode == 200) {
-        return true;
+        print(response.data);
+        return response.data['order_id'].toString();
       }
 
-      return false;
+      return null;
+    } catch (error) {
+      print(error);
+      locator<DialogService>().dialogComplete();
+      if (error is DioError) {
+        handleDioErrors(error);
+      }
+      return null;
+    }
+  }
+
+  static Future<void> initiatePayment({
+    required String access,
+    required String orderId,
+    required String phoneNumber,
+    required String paymentType,
+    required double cartTotal,
+  }) async {
+    locator<DialogService>().showLoaderDialog(
+      message: "Initiating payment. Check your phone for payment prompt",
+    );
+
+    FormData data = FormData.fromMap({
+      "order_id": orderId,
+      "phone_number": phoneNumber,
+      "order_amount": cartTotal,
+      "payment_type": paymentType,
+    });
+
+    try {
+      Dio dio = Dio()
+        ..interceptors.add(
+          LogInterceptor(
+            responseBody: true,
+            requestHeader: true,
+            requestBody: true,
+            request: true,
+            error: true,
+            responseHeader: true,
+          ),
+        );
+      await dio.post(
+        "${ApiConfig.BASE_URL}/customer/payment",
+        data: data,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $access",
+          },
+        ),
+      );
+
+      locator<DialogService>().dialogComplete();
     } catch (error) {
       locator<DialogService>().dialogComplete();
       if (error is DioError) {
         handleDioErrors(error);
       }
-      return false;
     }
   }
 }
