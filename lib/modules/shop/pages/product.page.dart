@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/configs/theme.config.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
+import 'package:food_delivery/modules/shop/pages/checkout.page.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/utils/extensions/double.extension.dart';
@@ -359,22 +360,29 @@ class _ProductPageState extends State<ProductPage> {
                       SizedBox(
                         height: sy(30),
                       ),
-                      Container(
-                        width: context.width,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(
-                          vertical: sy(13),
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.darkBlue,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Text(
-                          "Quick Checkout",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: sy(10),
+                      GestureDetector(
+                        onTap: () {
+                          context.routeTo(
+                            page: const CheckoutPage(),
+                          );
+                        },
+                        child: Container(
+                          width: context.width,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(
+                            vertical: sy(13),
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.darkBlue,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            "Quick Checkout",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: sy(10),
+                            ),
                           ),
                         ),
                       ),

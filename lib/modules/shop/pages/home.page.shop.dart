@@ -212,8 +212,8 @@ class _HomePageState extends State<HomePage> {
                       AsyncSnapshot<List<Product>> snapshot) {
                     while (
                         snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: Container(
+                      return const Center(
+                        child: SizedBox(
                           height: 15,
                           width: 15,
                           child: CircularProgressIndicator(),

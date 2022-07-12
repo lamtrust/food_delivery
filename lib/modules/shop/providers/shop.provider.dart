@@ -234,13 +234,34 @@ class ShopProvider extends ChangeNotifier {
   Future<bool> checkout({
     required int deliveryAddressId,
     required String paymentMethod,
+    String? phoneNumber,
+    String? paymentType,
   }) async {
-    return await ProductsController.checkout(
+    String? orderId = await ProductsController.checkout(
       access: _token!,
       deliveryAddressId: deliveryAddressId,
       paymentMethod: paymentMethod,
       cart: _cart,
     );
+
+    if (orderId != null) {
+      // was payment method paynow
+      if (paymentMethod == "Paynow") {
+        await ProductsController.initiatePayment(
+          access: _token!,
+          orderId: orderId,
+          phoneNumber: "$phoneNumber",
+          paymentType: "$paymentType",
+          cartTotal: cartTotal,
+        );
+
+        return true;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
   }
 
   // END OF CHECKOUT
