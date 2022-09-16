@@ -19,6 +19,7 @@ class ShopProvider extends ChangeNotifier {
   List<Product> _products = [];
   List<CartItem> _cart = [];
   List<Product> _favourites = [];
+  bool _isUsd = true;
 
   ShopProvider() {
     String? token = _storageService.getFromDisk("token");
@@ -252,7 +253,7 @@ class ShopProvider extends ChangeNotifier {
           orderId: orderId,
           phoneNumber: "$phoneNumber",
           paymentType: "$paymentType",
-          cartTotal: cartTotal,
+          cartTotal: cartTotal.rtgsAmount,
         );
 
         return true;
@@ -287,9 +288,19 @@ class ShopProvider extends ChangeNotifier {
     return total;
   }
 
+  void toggleCurrency() {
+    _isUsd = !_isUsd;
+    notifyListeners();
+  }
+
   List<Product> get favourites => _favourites;
   String? get token => _token;
   bool get authenticated => _token != null;
   Profile? get profile => _profile;
   LatLng? get location => _location;
+  bool get isUsd => _isUsd;
+}
+
+extension ConvertedRate on double {
+  double get rtgsAmount => this * 750;
 }
