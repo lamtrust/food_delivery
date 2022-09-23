@@ -8,6 +8,8 @@ import 'package:food_delivery/widgets/product_container.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../../widgets/currency_switch.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -122,6 +124,29 @@ class _HomePageState extends State<HomePage> {
                     height: sy(60),
                     width: sx(150),
                   ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: sy(20),
+            ),
+            SizedBox(
+              width: context.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "USD PRICES",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: sy(9),
+                    ),
+                  ),
+                  SizedBox(
+                    width: sx(10),
+                  ),
+                  const CurrencySwitch(),
                 ],
               ),
             ),

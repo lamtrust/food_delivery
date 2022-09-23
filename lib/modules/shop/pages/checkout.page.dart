@@ -6,6 +6,7 @@ import 'package:food_delivery/modules/shop/models/paynow_options.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/utils/extensions/double.extension.dart';
+import 'package:food_delivery/widgets/currency_switch.dart';
 import 'package:localregex/localregex.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
@@ -23,7 +24,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   Map<String, dynamic>? _address;
 
-  Future<List<Map<String, dynamic>>?>? _future;
+  late Future<List<Map<String, dynamic>>?> _future;
 
   final TextEditingController controller = TextEditingController();
 
@@ -76,6 +77,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   }
 
                   if (snapshot.hasError) {
+                    debugPrint("${snapshot.error}");
                     return const Center(
                       child: Text('Failed to load data. Reload page'),
                     );
@@ -261,19 +263,40 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         SizedBox(
                           height: sy(10),
                         ),
-                        Text(
-                          "Order Summary",
-                          style: TextStyle(
-                            fontSize: sy(12),
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Order Summary",
+                              style: TextStyle(
+                                fontSize: sy(12),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "USD PRICES",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: sy(9),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: sx(10),
+                                ),
+                                const CurrencySwitch(),
+                              ],
+                            ),
+                          ],
                         ),
                         Divider(
                           height: sy(10),
                           color: AppColors.darkBlue.withOpacity(0.5),
                         ),
                         Text(
-                          "Total: ${provider.cartTotal.money.symbolOnLeft}",
+                          "Total: ${(provider.isUsd ? provider.cartTotal : provider.cartTotal.rtgsAmount).money.symbolOnLeft} ${provider.isUsd ? "USD" : "RTGS"}",
                           style: TextStyle(
                             fontSize: sy(12),
                             fontWeight: FontWeight.bold,
@@ -284,7 +307,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         ),
                         ...provider.cart.map((CartItem item) {
                           return Text(
-                            "${item.quantity} X ${item.product.name} @ ${item.product.price.money.symbolOnLeft}",
+                            "${item.quantity} X ${item.product.name} @ ${(provider.isUsd ? item.product.price : item.product.price.rtgsAmount).money.symbolOnLeft}",
                             style: TextStyle(
                               fontSize: sy(10),
                               fontWeight: FontWeight.normal,
@@ -298,6 +321,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           onTap: () async {
                             if (_address != null) {
                               if (_paymentMethod == PaymentMethod.Paynow) {
+                                if (provider.isUsd) {
+                                  context.notification(
+                                    message: "Select Cash on Delivery for USD",
+                                    isError: true,
+                                  );
+                                  return;
+                                }
                                 if (_paynowOption == PaynowOptions.ecocash) {
                                   if (!LocalRegex.isEconet(controller.text)) {
                                     context.notification(

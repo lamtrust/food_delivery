@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/configs/theme.config.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
 import 'package:food_delivery/modules/shop/pages/product.page.dart';
+import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/utils/extensions/double.extension.dart';
+import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 class ProductContainer extends StatelessWidget {
@@ -120,15 +122,28 @@ class ProductContainer extends StatelessWidget {
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Text(
-                          product.price > 1000
-                              ? product.price.money.compactSymbolOnLeft
-                              : product.price.money.symbolOnLeft,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: sy(11),
-                          ),
+                        Consumer<ShopProvider>(
+                          builder: (context, provider, _) {
+                            return Text(
+                              (provider.isUsd
+                                          ? product.price
+                                          : product.price.rtgsAmount) >
+                                      1000
+                                  ? provider.isUsd
+                                      ? product.price.money.compactSymbolOnLeft
+                                      : product.price.rtgsAmount.money
+                                          .compactSymbolOnLeft
+                                  : provider.isUsd
+                                      ? product.price.money.symbolOnLeft
+                                      : product
+                                          .price.rtgsAmount.money.symbolOnLeft,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: sy(11),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
