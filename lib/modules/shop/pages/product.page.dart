@@ -365,9 +365,17 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          context.routeTo(
-                            page: const CheckoutPage(),
-                          );
+                          if (Provider.of<ShopProvider>(context).authenticated) {
+                            context.routeTo(
+                              page: const CheckoutPage(),
+                            );
+                          } else {
+                            context.notification(
+                              message:
+                              "Login to proceed. The application needs your delivery details!",
+                              isError: true,
+                            );
+                          }
                         },
                         child: Container(
                           width: context.width,

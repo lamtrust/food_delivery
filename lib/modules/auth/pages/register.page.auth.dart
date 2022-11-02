@@ -279,7 +279,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: TextFormField(
                               controller: provider.passwordController,
                               decoration: InputDecoration(
-                                hintText: "********",
+                                hintText: "",
                                 hintStyle: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.normal,
