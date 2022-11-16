@@ -25,7 +25,7 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
       return Scaffold(
-        body: Container(
+        body: SizedBox(
           height: context.height,
           width: context.width,
           child: Column(
@@ -84,18 +84,21 @@ class _ProductPageState extends State<ProductPage> {
                                         fontSize: sy(10),
                                       ),
                                     ),
-                                    Text(
-                                      widget.product.price > 1000
-                                          ? widget.product.price.money
-                                              .compactSymbolOnLeft
-                                          : widget
-                                              .product.price.money.symbolOnLeft,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: sy(17),
-                                      ),
-                                    ),
+                                    Consumer<ShopProvider>(
+                                        builder: (context, provider, _) {
+                                      return Text(
+                                        provider.isUsd
+                                            ? widget.product.price.money
+                                                .symbolOnLeft
+                                            : widget.product.price.rtgsAmount
+                                                .money.symbolOnLeft,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: sy(17),
+                                        ),
+                                      );
+                                    }),
                                   ],
                                 ),
                                 Column(
@@ -321,7 +324,7 @@ class _ProductPageState extends State<ProductPage> {
                                   ),
                                   TextSpan(
                                     text:
-                                        " ${provider.totalProductCostInCart(widget.product) > 1000 ? provider.totalProductCostInCart(widget.product).money.compactSymbolOnLeft : provider.totalProductCostInCart(widget.product).money.symbolOnLeft}",
+                                        " ${(provider.isUsd ? provider.totalProductCostInCart(widget.product) : provider.totalProductCostInCart(widget.product).rtgsAmount) > 1000 ? (provider.isUsd ? provider.totalProductCostInCart(widget.product) : provider.totalProductCostInCart(widget.product).rtgsAmount).money.compactSymbolOnLeft : (provider.isUsd ? provider.totalProductCostInCart(widget.product) : provider.totalProductCostInCart(widget.product).rtgsAmount).money.symbolOnLeft}",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900,
@@ -344,7 +347,7 @@ class _ProductPageState extends State<ProductPage> {
                                   ),
                                   TextSpan(
                                     text:
-                                        " ${provider.cartTotal > 1000 ? provider.cartTotal.money.compactSymbolOnLeft : provider.cartTotal.money.symbolOnLeft}",
+                                        " ${(provider.isUsd ? provider.cartTotal : provider.cartTotal.rtgsAmount) > 1000 ? (provider.isUsd ? provider.cartTotal : provider.cartTotal.rtgsAmount).money.compactSymbolOnLeft : (provider.isUsd ? provider.cartTotal : provider.cartTotal.rtgsAmount).money.symbolOnLeft}",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900,
@@ -362,9 +365,17 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          context.routeTo(
-                            page: const CheckoutPage(),
-                          );
+                          if (Provider.of<ShopProvider>(context).authenticated) {
+                            context.routeTo(
+                              page: const CheckoutPage(),
+                            );
+                          } else {
+                            context.notification(
+                              message:
+                              "Login to proceed. The application needs your delivery details!",
+                              isError: true,
+                            );
+                          }
                         },
                         child: Container(
                           width: context.width,

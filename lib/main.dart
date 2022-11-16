@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: "Overpass",
-      ),
+      ), //
       builder: (context, widget) => Navigator(
         onGenerateRoute: (route) => MaterialPageRoute(
           builder: (context) => DialogManager(child: widget!),

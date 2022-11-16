@@ -9,6 +9,8 @@ import 'package:food_delivery/widgets/cart_item_container.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../../widgets/currency_switch.dart';
+
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
 
@@ -30,38 +32,61 @@ class _CartPageState extends State<CartPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "My Cart",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: sy(12),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "My Cart",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: sy(12),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "USD PRICES",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: sy(9),
+                        ),
+                      ),
+                      SizedBox(
+                        width: sx(10),
+                      ),
+                      const CurrencySwitch(),
+                    ],
+                  ),
+                ],
               ),
               SizedBox(
                 height: sy(10),
               ),
               Expanded(
-                child: Consumer<ShopProvider>(builder: (context, provider, _) {
-                  return provider.cartCount > 0
-                      ? ListView(
-                          shrinkWrap: true,
-                          children: provider.cart.map((CartItem item) {
-                            return CartItemContainer(
-                              item: item,
-                            );
-                          }).toList(),
-                        )
-                      : Center(
-                          child: Text(
-                            "Your cart is empty 😔😔",
-                            style: TextStyle(
-                              fontSize: sy(12),
-                              color: Theme.of(context).disabledColor,
+                child: Consumer<ShopProvider>(
+                  builder: (context, provider, _) {
+                    return provider.cartCount > 0
+                        ? ListView(
+                            shrinkWrap: true,
+                            children: provider.cart.map((CartItem item) {
+                              return CartItemContainer(
+                                item: item,
+                              );
+                            }).toList(),
+                          )
+                        : Center(
+                            child: Text(
+                              "Your cart is empty 😔😔",
+                              style: TextStyle(
+                                fontSize: sy(12),
+                                color: Theme.of(context).disabledColor,
+                              ),
                             ),
-                          ),
-                        );
-                }),
+                          );
+                  },
+                ),
               ),
               Consumer<ShopProvider>(builder: (context, provider, _) {
                 return Container(
@@ -91,36 +116,11 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 Text(
-                                  provider.cartTotal > 1000
-                                      ? provider
-                                          .cartTotal.money.compactSymbolOnLeft
-                                      : provider.cartTotal.money.symbolOnLeft,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: sy(12),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: sy(7),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Delivery Fees",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: sy(12),
-                                  ),
-                                ),
-                                Text(
-                                  0 > 1000
-                                      ? 0.toDouble().money.compactSymbolOnLeft
-                                      : 0.toDouble().money.symbolOnLeft,
+                                  (provider.isUsd
+                                          ? provider.cartTotal
+                                          : provider.cartTotal.rtgsAmount)
+                                      .money
+                                      .symbolOnLeft,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -144,10 +144,11 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 Text(
-                                  provider.cartTotal > 1000
-                                      ? provider
-                                          .cartTotal.money.compactSymbolOnLeft
-                                      : provider.cartTotal.money.symbolOnLeft,
+                                  (provider.isUsd
+                                          ? provider.cartTotal
+                                          : provider.cartTotal.rtgsAmount)
+                                      .money
+                                      .symbolOnLeft,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -161,9 +162,17 @@ class _CartPageState extends State<CartPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          context.routeTo(
-                            page: const CheckoutPage(),
-                          );
+                          if (provider.authenticated) {
+                            context.routeTo(
+                              page: const CheckoutPage(),
+                            );
+                          } else {
+                            context.notification(
+                              message:
+                                  "Login to proceed. The application needs your delivery details!",
+                              isError: true,
+                            );
+                          }
                         },
                         child: Container(
                           width: context.width,
