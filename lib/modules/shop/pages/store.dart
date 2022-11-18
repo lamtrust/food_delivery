@@ -19,16 +19,18 @@ class _StoreFrontState extends State<StoreFront> {
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
       return Consumer<NavigationProvider>(builder: (context, provider, _) {
         return Scaffold(
-          body: Container(
-            height: context.height,
-            width: context.width,
-            padding: EdgeInsets.symmetric(
-              horizontal: sx(20),
-            ),
-            child: PageView(
-              controller: provider.pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: provider.pages,
+          body: SafeArea(
+            child: Container(
+              height: context.height,
+              width: context.width,
+              padding: EdgeInsets.symmetric(
+                horizontal: sx(20),
+              ),
+              child: PageView(
+                controller: provider.pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: provider.pages,
+              ),
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(

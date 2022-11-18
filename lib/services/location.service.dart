@@ -1,4 +1,5 @@
-import 'package:location/location.dart';
+import 'package:location/location.dart' show Location, LocationData;
+import 'package:permission_handler/permission_handler.dart';
 
 class LocationService {
   static LocationService? _instance;
@@ -12,40 +13,18 @@ class LocationService {
     return _instance!;
   }
 
-  Future<void> init() async {
-    bool _serviceEnabled = await _location!.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _location!.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    PermissionStatus _permissionGranted = await _location!.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _location!.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
+  Future<void> getLocationPermission() async {
+    final PermissionStatus locationPermission =
+        await Permission.locationWhenInUse.request();
+    if (locationPermission.isGranted) {
+      return;
+    } else {
+      return;
     }
   }
 
   Future<LocationData?> getCurrentLocation() async {
-    bool _serviceEnabled = await _location!.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _location!.requestService();
-      if (!_serviceEnabled) {
-        return null;
-      }
-    }
-
-    PermissionStatus _permissionGranted = await _location!.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _location!.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return null;
-      }
-    }
+    await getLocationPermission();
 
     LocationData _locationData = await _location!.getLocation();
     return _locationData;

@@ -1,6 +1,5 @@
 import 'package:food_delivery/services/location.service.dart';
 import 'package:food_delivery/services/storage.service.dart';
-import 'package:food_delivery/utils/logging_service_writer.dart';
 import 'package:get_it/get_it.dart';
 
 import 'application_information.service.dart';
@@ -22,5 +21,4 @@ Future setupServices() async {
   locator.registerSingleton<ApplicationInformationService>(
       _applicationInformationInstance);
   locator.registerSingleton<LocationService>(_locationInstance);
-  await LoggingServiceWriter().init();
 }

@@ -8,7 +8,6 @@ import 'package:food_delivery/modules/shop/providers/navigation.provider.shop.da
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/modules/splash.dart';
 import 'package:food_delivery/services/index.dart';
-import 'package:food_delivery/services/location.service.dart';
 import 'package:food_delivery/utils/managers/dialog.manager.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +22,6 @@ void main() async {
   ]);
 
   await setupServices();
-  await locator<LocationService>().init();
 
   runApp(
     MultiProvider(

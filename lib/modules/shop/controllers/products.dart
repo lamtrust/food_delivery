@@ -7,9 +7,19 @@ import 'package:food_delivery/services/index.dart';
 import 'package:food_delivery/utils/functions/handle_dio_errors.dart';
 
 class ProductsController {
+  static Dio dio = Dio()
+    ..interceptors.add(
+      LogInterceptor(
+        responseBody: true,
+        requestHeader: true,
+        requestBody: true,
+        request: true,
+        error: true,
+        responseHeader: true,
+      ),
+    );
   static Future<Map<String, dynamic>?> getProducts() async {
     try {
-      Dio dio = Dio();
       Response response =
           await dio.get("${ApiConfig.BASE_URL}/products/latest");
       if (response.statusCode == 200) {
@@ -29,17 +39,6 @@ class ProductsController {
     required String access,
   }) async {
     try {
-      Dio dio = Dio()
-        ..interceptors.add(
-          LogInterceptor(
-            responseBody: true,
-            requestHeader: true,
-            requestBody: true,
-            request: true,
-            error: true,
-            responseHeader: true,
-          ),
-        );
       Response response = await dio.get(
         "${ApiConfig.BASE_URL}/customer/order/list",
         options: Options(

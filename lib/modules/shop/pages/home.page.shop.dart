@@ -30,6 +30,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: sx(4),
+              ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
