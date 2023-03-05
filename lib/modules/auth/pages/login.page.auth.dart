@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: TextFormField(
                               controller: provider.passwordController,
                               decoration: InputDecoration(
-                                hintText: "********",
+                                hintText: "",
                                 hintStyle: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.normal,
@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                                       : const Icon(CupertinoIcons.eye),
                                 ),
                               ),
-                              obscureText: provider.showPassword,
+                              obscureText: !provider.showPassword,
                               keyboardType: TextInputType.text,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -165,23 +165,28 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             height: sy(30),
                           ),
-                          Container(
-                            width: context.width,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: sx(20),
-                              vertical: sy(12),
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.darkBlue,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: sy(10),
+                          GestureDetector(
+                            onTap: () {
+                              provider.login(context);
+                            },
+                            child: Container(
+                              width: context.width,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: sx(20),
+                                vertical: sy(12),
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.darkBlue,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: sy(10),
+                                ),
                               ),
                             ),
                           ),

@@ -4,10 +4,11 @@ import 'package:food_delivery/modules/shop/models/product.model.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/widgets/category_icon.dart';
-import 'package:food_delivery/widgets/deliver_to.dart';
 import 'package:food_delivery/widgets/product_container.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
+
+import '../../../widgets/currency_switch.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,11 +29,10 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Column(
           children: [
-            const DeliverTo(),
-            SizedBox(
-              height: sy(20),
-            ),
             Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: sx(4),
+              ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -91,28 +91,17 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: [
                             Text(
-                              "25%",
+                              "We're now open",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w900,
                                 fontSize: sy(13),
                               ),
                             ),
-                            SizedBox(
-                              width: sx(10),
-                            ),
-                            Text(
-                              "off",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: sy(10),
-                              ),
-                            ),
                           ],
                         ),
                         Text(
-                          "Fast Foods",
+                          "6.30am - 7pm",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
@@ -123,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                           height: sy(10),
                         ),
                         Text(
-                          "Valid until 27 April",
+                          "Better deals at TN Grill",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
@@ -138,6 +127,29 @@ class _HomePageState extends State<HomePage> {
                     height: sy(60),
                     width: sx(150),
                   ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: sy(20),
+            ),
+            SizedBox(
+              width: context.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "USD PRICES",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: sy(9),
+                    ),
+                  ),
+                  SizedBox(
+                    width: sx(10),
+                  ),
+                  const CurrencySwitch(),
                 ],
               ),
             ),
@@ -222,14 +234,33 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: Consumer<ShopProvider>(builder: (context, provider, _) {
-                return GridView.count(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.76,
-                  crossAxisSpacing: sx(20),
-                  mainAxisSpacing: sy(10),
-                  children: provider.products.map((Product product) {
-                    return ProductContainer(product: product);
-                  }).toList(),
+                return FutureBuilder(
+                  future: provider.getProducts(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Product>> snapshot) {
+                    while (
+                        snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: SizedBox(
+                          height: 15,
+                          width: 15,
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+
+                    List<Product> products = snapshot.data!;
+
+                    return GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.76,
+                      crossAxisSpacing: sx(20),
+                      mainAxisSpacing: sy(10),
+                      children: products.map((Product product) {
+                        return ProductContainer(product: product);
+                      }).toList(),
+                    );
+                  },
                 );
               }),
             ),

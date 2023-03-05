@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_delivery/modules/auth/providers/login.provider.auth.dart';
@@ -57,7 +56,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: "Overpass",
-      ),
+      ), //
       builder: (context, widget) => Navigator(
         onGenerateRoute: (route) => MaterialPageRoute(
           builder: (context) => DialogManager(child: widget!),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:relative_scale/relative_scale.dart';
@@ -23,25 +25,32 @@ class SuccessDialogContainer extends StatelessWidget {
             children: [
               Container(
                 width: context.width,
-                padding: EdgeInsets.symmetric(
-                  vertical: sy(5),
-                ),
                 height: sy(70),
                 alignment: Alignment.center,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/background.png'),
-                    fit: BoxFit.cover,
+                    image: AssetImage('assets/images/background.jpg'),
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: sy(17),
-                    fontWeight: FontWeight.bold,
-                    height: 1,
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 1,
+                    sigmaY: 1,
+                  ),
+                  child: Container(
+                    color: Colors.black.withOpacity(0.5),
+                    alignment: Alignment.center,
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: sy(17),
+                        fontWeight: FontWeight.bold,
+                        height: 1,
+                      ),
+                    ),
                   ),
                 ),
               ),

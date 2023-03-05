@@ -33,7 +33,7 @@ class CartItemContainer extends StatelessWidget {
           children: [
             FadeInImage.assetNetwork(
               placeholder: "assets/images/loading.gif",
-              image: item.product.images.first,
+              image: item.product.image,
               height: sy(40),
               width: sx(100),
             ),
@@ -131,9 +131,11 @@ class CartItemContainer extends StatelessWidget {
                     height: sy(5),
                   ),
                   Text(
-                    item.product.price > 1000
-                        ? item.product.price.money.compactSymbolOnLeft
-                        : item.product.price.money.symbolOnLeft,
+                    (provider.isUsd
+                            ? item.product.price
+                            : item.product.price.rtgsAmount)
+                        .money
+                        .symbolOnLeft,
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w900,

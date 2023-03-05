@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:relative_scale/relative_scale.dart';
@@ -34,18 +36,28 @@ class ErrorDialogContainer extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/background.png'),
+                    image: AssetImage('assets/images/background.jpg'),
                     fit: BoxFit.fitWidth,
                   ),
                 ),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: sy(17),
-                    fontWeight: FontWeight.bold,
-                    height: 1,
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 1,
+                    sigmaY: 1,
+                  ),
+                  child: Container(
+                    color: Colors.black.withOpacity(0.5),
+                    alignment: Alignment.center,
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: sy(17),
+                        fontWeight: FontWeight.bold,
+                        height: 1,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -75,12 +87,7 @@ class ErrorDialogContainer extends StatelessWidget {
                 onTap: () {
                   if (onButtonClick != null) {
                     onButtonClick!();
-                    // if (isLogout == true) {
-                    //   context.routeTo(
-                    //     page: LoginScreen(),
-                    //     replace: true,
-                    //   );
-                    // }
+                    context.goBack();
                   } else {
                     context.goBack();
                   }

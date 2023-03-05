@@ -1,79 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/modules/shop/controllers/auth_controller.dart';
+import 'package:food_delivery/modules/shop/controllers/products.dart';
+import 'package:food_delivery/modules/shop/controllers/profile_controller.dart';
 import 'package:food_delivery/modules/shop/models/cart_item.model.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
+import 'package:food_delivery/modules/shop/models/profile.dart';
 import 'package:food_delivery/services/dialog.service.dart';
 import 'package:food_delivery/services/index.dart';
+import 'package:food_delivery/services/storage.service.dart';
 import 'package:food_delivery/utils/extensions/iterations.extension.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:uuid/uuid.dart';
 
 class ShopProvider extends ChangeNotifier {
-  final dialogService = locator<DialogService>();
+  final DialogService _dialogService = locator<DialogService>();
+  final StorageService _storageService = locator<StorageService>();
 
-  final List<Product> _products = [
-    Product(
-      id: const Uuid().v4(),
-      name: "Coca-Cola",
-      price: 2.5,
-      rating: 1.5,
-      description:
-          "Coca-Cola is a carbonated soft drink manufactured by The Coca-Cola Company.",
-      images: [
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397316/istockphoto-452813985-612x612-removebg-preview_rlvujm.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397509/Screenshot_from_2022-03-27_18-08-39-removebg-preview_apu9g2.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397512/Screenshot_from_2022-03-27_18-09-03-removebg-preview_vyv3qq.png",
-      ],
-      isFeatured: false,
-      reviews: [],
-    ),
-    Product(
-      id: const Uuid().v4(),
-      name: "Fanta",
-      price: 1.5,
-      rating: 1.5,
-      description:
-          "Fanta is a carbonated soft drink manufactured by The Coca-Cola Company.",
-      images: [
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397509/Screenshot_from_2022-03-27_18-08-39-removebg-preview_apu9g2.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397316/istockphoto-452813985-612x612-removebg-preview_rlvujm.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397512/Screenshot_from_2022-03-27_18-09-03-removebg-preview_vyv3qq.png",
-      ],
-      isFeatured: false,
-      reviews: [],
-    ),
-    Product(
-      id: const Uuid().v4(),
-      name: "Coca-Cola",
-      price: 1.5,
-      rating: 1.5,
-      description:
-          "Coca-Cola is a carbonated soft drink manufactured by The Coca-Cola Company.",
-      images: [
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397512/Screenshot_from_2022-03-27_18-09-03-removebg-preview_vyv3qq.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397316/istockphoto-452813985-612x612-removebg-preview_rlvujm.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397509/Screenshot_from_2022-03-27_18-08-39-removebg-preview_apu9g2.png",
-      ],
-      isFeatured: false,
-      reviews: [],
-    ),
-    Product(
-      id: const Uuid().v4(),
-      name: "Coca-Cola",
-      price: 1.5,
-      rating: 1.5,
-      description:
-          "Coca-Cola is a carbonated soft drink manufactured by The Coca-Cola Company.",
-      images: [
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397316/istockphoto-452813985-612x612-removebg-preview_rlvujm.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397509/Screenshot_from_2022-03-27_18-08-39-removebg-preview_apu9g2.png",
-        "https://res.cloudinary.com/iamngoni/image/upload/v1648397512/Screenshot_from_2022-03-27_18-09-03-removebg-preview_vyv3qq.png",
-      ],
-      isFeatured: false,
-      reviews: [],
-    ),
-  ];
-
+  List<Product> _products = [];
   List<CartItem> _cart = [];
   List<Product> _favourites = [];
+  bool _isUsd = true;
+
+  ShopProvider() {
+    String? token = _storageService.getFromDisk("token");
+    Future.delayed(const Duration(seconds: 1), () => setToken = token);
+  }
+
+  // AUTHENTICATION BLOCK
+  String? _token;
+  Profile? _profile;
+
+  set setToken(String? token) {
+    _token = token;
+    notifyListeners();
+    _token != null ? getAuthenticatedProfile() : null;
+  }
+
+  getAuthenticatedProfile() async {
+    Map<String, dynamic>? profile =
+        await AuthController.getAuthenticatedProfile(token: _token!);
+    if (profile != null) {
+      _profile = Profile.fromJson(profile);
+      notifyListeners();
+    }
+  }
+
+  void logout() {
+    _storageService.saveToDisk("token", null);
+    _token = null;
+    _profile = null;
+    notifyListeners();
+  }
+
+  // END OF AUTHENTICATION BLOCK
+
+  Future<List<Product>> getProducts() async {
+    if (_products.isNotEmpty) {
+      return _products;
+    }
+    Map<String, dynamic>? response = await ProductsController.getProducts();
+    if (response != null) {
+      try {
+        List<Map<String, dynamic>> products = response['products']
+            .map<Map<String, dynamic>>((p) => p as Map<String, dynamic>)
+            .toList() as List<Map<String, dynamic>>;
+        List<Product> _rProducts = [];
+        for (Map<String, dynamic> product in products) {
+          Product _product = Product(
+            description: product['description'],
+            id: product['id'].toString(),
+            name: product['name'],
+            price: product['price'].toDouble(),
+            rating: 0,
+            isFeatured: false,
+            reviews: [],
+            image: "http://tngrill.co.zw/storage/product/${product['image']}",
+          );
+          _rProducts.add(_product);
+        }
+
+        _products = _rProducts;
+      } catch (error, stacktrace) {
+        print("Error: $error -> $stacktrace");
+      }
+    }
+    return _products;
+  }
 
   // Check if product exists in cart
   bool productExistsInCart(Product product) {
@@ -144,6 +156,11 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
+  void clearCart() {
+    _cart = [];
+    notifyListeners();
+  }
+
   // Increment cart item quantity
   void incrementCartItemQuantity(CartItem item) {
     item.increment();
@@ -164,6 +181,91 @@ class ShopProvider extends ChangeNotifier {
   bool isFavourite(Product product) {
     return _favourites.any((Product _) => _.id == product.id);
   }
+
+  // ADDRESS BLOCK
+  LatLng? _location;
+
+  set setLocation(LatLng? data) {
+    _location = data;
+    notifyListeners();
+  }
+
+  Future<bool> saveAddress({
+    required String name,
+    required String phone,
+    required String address,
+    required String addressType,
+  }) async {
+    if (_location == null) {
+      _dialogService.showNotification(
+        message: "Please select an exact location",
+        isError: true,
+      );
+      return false;
+    }
+    return await ProfileController.saveAddress(
+      name: name,
+      phone: phone,
+      address: address,
+      latitude: _location!.latitude,
+      longitude: _location!.longitude,
+      addressType: addressType,
+      token: _token!,
+    );
+  }
+
+  List<Map<String, dynamic>> _addresses = [];
+
+  Future<List<Map<String, dynamic>>?> getAddresses() async {
+    List<Map<String, dynamic>>? data = await ProfileController.getAddresses(
+      token: _token!,
+    );
+
+    if (data != null && data.isNotEmpty) {
+      _addresses = data;
+    }
+
+    return data;
+  }
+
+  // END OF ADDRESS BLOCK
+
+  // CHECKOUT
+
+  Future<bool> checkout({
+    required int deliveryAddressId,
+    required String paymentMethod,
+    String? phoneNumber,
+    String? paymentType,
+  }) async {
+    String? orderId = await ProductsController.checkout(
+      access: _token!,
+      deliveryAddressId: deliveryAddressId,
+      paymentMethod: paymentMethod,
+      cart: _cart,
+    );
+
+    if (orderId != null) {
+      // was payment method paynow
+      if (paymentMethod == "Paynow") {
+        await ProductsController.initiatePayment(
+          access: _token!,
+          orderId: orderId,
+          phoneNumber: "$phoneNumber",
+          paymentType: "$paymentType",
+          cartTotal: cartTotal.rtgsAmount,
+        );
+
+        return true;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  // END OF CHECKOUT
 
   List<Product> get products => _products;
   List<CartItem> get cart => _cart;
@@ -186,5 +288,19 @@ class ShopProvider extends ChangeNotifier {
     return total;
   }
 
+  void toggleCurrency() {
+    _isUsd = !_isUsd;
+    notifyListeners();
+  }
+
   List<Product> get favourites => _favourites;
+  String? get token => _token;
+  bool get authenticated => _token != null;
+  Profile? get profile => _profile;
+  LatLng? get location => _location;
+  bool get isUsd => _isUsd;
+}
+
+extension ConvertedRate on double {
+  double get rtgsAmount => this * 750;
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
-import 'package:food_delivery/widgets/deliver_to.dart';
 import 'package:food_delivery/widgets/product_container.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_scale/relative_scale.dart';
@@ -28,11 +27,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const DeliverTo(),
-            const Divider(),
-            SizedBox(
-              height: sy(10),
-            ),
             Text(
               "Favourites",
               style: TextStyle(

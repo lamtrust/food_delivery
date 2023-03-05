@@ -48,9 +48,8 @@ extension ExtraContext on BuildContext {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: Image(
-                    // TODO: Replace with actual asset here
-                    image: AssetImage(""),
+                  child: const Image(
+                    image: AssetImage("assets/images/logo.png"),
                     height: 35,
                     width: 35,
                   ),

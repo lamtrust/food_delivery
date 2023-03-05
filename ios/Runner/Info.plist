@@ -43,5 +43,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>NSLocationUsageDescription</key>
+    <string>Location is required for efficient delivery services.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Location is required for efficient delivery services.</string>
 </dict>
 </plist>

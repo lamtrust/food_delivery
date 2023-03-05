@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/configs/theme.config.dart';
 import 'package:food_delivery/modules/shop/models/product.model.dart';
+import 'package:food_delivery/modules/shop/pages/checkout.page.dart';
 import 'package:food_delivery/modules/shop/providers/shop.provider.dart';
 import 'package:food_delivery/utils/extensions/context.extension.dart';
 import 'package:food_delivery/utils/extensions/double.extension.dart';
@@ -24,7 +25,7 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
       return Scaffold(
-        body: Container(
+        body: SizedBox(
           height: context.height,
           width: context.width,
           child: Column(
@@ -54,7 +55,7 @@ class _ProductPageState extends State<ProductPage> {
                               alignment: Alignment.center,
                               child: FadeInImage.assetNetwork(
                                 placeholder: "assets/images/loading.gif",
-                                image: widget.product.images.first,
+                                image: widget.product.image,
                                 fit: BoxFit.cover,
                                 placeholderFit: BoxFit.scaleDown,
                                 height: sy(99),
@@ -83,18 +84,21 @@ class _ProductPageState extends State<ProductPage> {
                                         fontSize: sy(10),
                                       ),
                                     ),
-                                    Text(
-                                      widget.product.price > 1000
-                                          ? widget.product.price.money
-                                              .compactSymbolOnLeft
-                                          : widget
-                                              .product.price.money.symbolOnLeft,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: sy(17),
-                                      ),
-                                    ),
+                                    Consumer<ShopProvider>(
+                                        builder: (context, provider, _) {
+                                      return Text(
+                                        provider.isUsd
+                                            ? widget.product.price.money
+                                                .symbolOnLeft
+                                            : widget.product.price.rtgsAmount
+                                                .money.symbolOnLeft,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: sy(17),
+                                        ),
+                                      );
+                                    }),
                                   ],
                                 ),
                                 Column(
@@ -316,17 +320,15 @@ class _ProductPageState extends State<ProductPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
                                       fontSize: sy(10),
-                                      fontFamily: "Overpass",
                                     ),
                                   ),
                                   TextSpan(
                                     text:
-                                        " ${provider.totalProductCostInCart(widget.product) > 1000 ? provider.totalProductCostInCart(widget.product).money.compactSymbolOnLeft : provider.totalProductCostInCart(widget.product).money.symbolOnLeft}",
+                                        " ${(provider.isUsd ? provider.totalProductCostInCart(widget.product) : provider.totalProductCostInCart(widget.product).rtgsAmount) > 1000 ? (provider.isUsd ? provider.totalProductCostInCart(widget.product) : provider.totalProductCostInCart(widget.product).rtgsAmount).money.compactSymbolOnLeft : (provider.isUsd ? provider.totalProductCostInCart(widget.product) : provider.totalProductCostInCart(widget.product).rtgsAmount).money.symbolOnLeft}",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900,
-                                      fontSize: sy(18),
-                                      fontFamily: "Overpass",
+                                      fontSize: sy(15),
                                     ),
                                   ),
                                 ],
@@ -341,17 +343,15 @@ class _ProductPageState extends State<ProductPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
                                       fontSize: sy(10),
-                                      fontFamily: "Overpass",
                                     ),
                                   ),
                                   TextSpan(
                                     text:
-                                        " ${provider.cartTotal > 1000 ? provider.cartTotal.money.compactSymbolOnLeft : provider.cartTotal.money.symbolOnLeft}",
+                                        " ${(provider.isUsd ? provider.cartTotal : provider.cartTotal.rtgsAmount) > 1000 ? (provider.isUsd ? provider.cartTotal : provider.cartTotal.rtgsAmount).money.compactSymbolOnLeft : (provider.isUsd ? provider.cartTotal : provider.cartTotal.rtgsAmount).money.symbolOnLeft}",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900,
-                                      fontSize: sy(18),
-                                      fontFamily: "Overpass",
+                                      fontSize: sy(15),
                                     ),
                                   ),
                                 ],
@@ -363,22 +363,37 @@ class _ProductPageState extends State<ProductPage> {
                       SizedBox(
                         height: sy(30),
                       ),
-                      Container(
-                        width: context.width,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(
-                          vertical: sy(13),
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.darkBlue,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Text(
-                          "Quick Checkout",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: sy(10),
+                      GestureDetector(
+                        onTap: () {
+                          if (Provider.of<ShopProvider>(context).authenticated) {
+                            context.routeTo(
+                              page: const CheckoutPage(),
+                            );
+                          } else {
+                            context.notification(
+                              message:
+                              "Login to proceed. The application needs your delivery details!",
+                              isError: true,
+                            );
+                          }
+                        },
+                        child: Container(
+                          width: context.width,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(
+                            vertical: sy(13),
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.darkBlue,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            "Quick Checkout",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: sy(10),
+                            ),
                           ),
                         ),
                       ),
